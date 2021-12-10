@@ -27,14 +27,25 @@ public abstract class Scene extends PGraphicsJava2D {
 	private void antialiase() {
 		//Processing's anti-aliasing params can only be changed in settings() in non-PDE mode,
 		//so I used JAVA's native anti-aliasing functions in the Graphics2D class.
-		if(WaveformDrawing.fastRendering) {
-			//Nothing done if no anti-aliasing needed
-			return;
-		}else {
+		Graphics2D nativGraphics2d;
+		switch (WaveformDrawing.antialiasingLevel) {
+		case 1:
 			//Apply bilinear filter to rendered image
-			Graphics2D nativGraphics2d = ((Graphics2D)getNative());
+			nativGraphics2d = ((Graphics2D)getNative());
 			nativGraphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			nativGraphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			break;
+			
+		case 2:
+			//Apply tri-linear filter to rendered image
+			nativGraphics2d = ((Graphics2D)getNative());
+			nativGraphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			nativGraphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+			break;
+			
+		default:
+			//Nothing done if no anti-aliasing needed
+			break;
 		}
 	}
 }

@@ -11,18 +11,24 @@ import processing.core.PApplet;
 import scenes.FileSelectScene;
 
 public class WaveformDrawing extends PApplet {
+	
 	private final static int DEFAULT_WIDTH = 720, DEFAULT_HEIGHT = 480;
 	private final static float DEFAULT_SCALE = 0.75F, DEFAULT_RATIO = (float)DEFAULT_WIDTH / (float)DEFAULT_HEIGHT;
 	private final static Dimension WINDOW_MINIMUM = new Dimension(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
+	
 	private static float frameOffsetX = 0, frameOffsetY = 0;
-	public static boolean fastRendering = true;
 	private static float frameScale = 1.0f;
+	
+	public static int antialiasingLevel = 0;
 	private static int state = 0;
-	private static Frame nativeWindow;
+	
+	public static int cursorX, cursorY, pCursorX, pcursorY;
+	public static boolean clicked = false, pClicked = false;
+	
+	public static Frame nativeWindow;
 	
 	public FileSelectScene fileSelectScene;
 	
-	public static String path = "soy_el_gato_azul_super_8bit_48000Hz.wav";
 	public static PApplet main;
 
 	public static void main(String args[]) {
@@ -61,10 +67,6 @@ public class WaveformDrawing extends PApplet {
 	
 	@Override
 	public void draw() {
-		if(keyPressed) {
-			fastRendering = !fastRendering;
-		}
-		
 		background(0);
 		translate(frameOffsetX, frameOffsetY);
 		scale(frameScale);
@@ -83,8 +85,34 @@ public class WaveformDrawing extends PApplet {
 			image(fileSelectScene, 0, 0);
 			break;
 		}
-			
-		circle((float)(mouseX-frameOffsetX)/frameScale, (float)(mouseY-frameOffsetY)/frameScale, 6.0f/frameScale);
+		
+		pCursorX = cursorX;
+		pcursorY = cursorY;
+		pClicked = clicked;
+		cursorX = (int)((float)(this.mouseX - frameOffsetX) / frameScale);
+		cursorY = (int)((float)(this.mouseY - frameOffsetY) / frameScale);
+		circle(cursorX, cursorY, 6.0f / frameScale);
+	}
+	
+	@Override
+	public void mousePressed() {
+		clicked = true;
+	}
+	
+	@Override
+	public void mouseReleased() {
+		clicked = false;
+	}
+	
+	@Override
+	public void mouseExited() {
+		clicked = false;
+	}
+	
+	@Override
+	public void focusLost() {
+		clicked = false;
+		pClicked = false;
 	}
 	
 	public void resize() {
