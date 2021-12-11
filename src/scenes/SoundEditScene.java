@@ -4,6 +4,7 @@ import base.Scene;
 import processing.core.PApplet;
 
 public class SoundEditScene extends Scene {
+	
 	private byte[] source;
 	
 	public SoundEditScene(byte[] encodedAudio, PApplet parent) {
