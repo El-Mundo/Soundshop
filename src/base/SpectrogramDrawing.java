@@ -38,6 +38,7 @@ public class SpectrogramDrawing extends PApplet {
 	public static SpectrogramDrawing main;
 
 	public static void main(String args[]) {
+		AudioOutput.initAudioDevice();
 		PApplet.main("base.SpectrogramDrawing");
 	}
 	
@@ -55,17 +56,17 @@ public class SpectrogramDrawing extends PApplet {
 		
 		//Disable anti-aliasing at beginning
 		noSmooth();
-		
 	}
 	
 	@Override
 	public void setup() {
+		surface.setIcon(GraphicResouces.ICON);
+		
 		//Initialize the first scene
 		fileSelectScene = new FileSelectScene(DEFAULT_WIDTH, DEFAULT_HEIGHT, this);
 				
 		//To make the window adaptable for most devices
 		surface.setResizable(true);
-		surface.setIcon(GraphicResouces.ICON);
 		//Add a listener so that resizing the window can be detected
 		nativeWindow = ((SmoothCanvas)(surface.getNative())).getFrame();
 		nativeWindow.addComponentListener(resizeListener);

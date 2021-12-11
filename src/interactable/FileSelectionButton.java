@@ -1,5 +1,7 @@
 package interactable;
 
+import java.awt.FileDialog;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -23,10 +25,26 @@ public class FileSelectionButton extends Button {
 
 	@Override
 	public void interact() {
-		chooser.showDialog(SpectrogramDrawing.nativeWindow, "Select a file");
+		String file = null;
+		//Get file chooser based on the operating system
+		if(System.getProperty("os.name").contains("Mac")) {
+			//Replace with apple's native functions
+			FileDialog fileChooser = new FileDialog(SpectrogramDrawing.nativeWindow, "Open File");
+			fileChooser.setMode(FileDialog.LOAD);
+			fileChooser.setFile("*.wav");
+			fileChooser.setVisible(true);
+			
+			file = fileChooser.getFile();
+		}else {
+			chooser.showOpenDialog(SpectrogramDrawing.nativeWindow);
+			if(chooser.getSelectedFile() != null) {
+				file = chooser.getSelectedFile().getAbsolutePath();
+			}
+		}
+		
 		//Get selected file
-		if(chooser.getSelectedFile()!=null) {
-			String path = chooser.getSelectedFile().getAbsolutePath();
+		if(file != null) {
+			String path = file;
 			FileSelectScene.pathString = path;
 			for(int i = 1; i <= 6; i ++) {
 				int tar = i * 30;

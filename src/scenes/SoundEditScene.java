@@ -5,6 +5,7 @@ import processing.core.PApplet;
 
 public class SoundEditScene extends Scene {
 	
+	@SuppressWarnings("unused")
 	private byte[] source;
 	
 	public SoundEditScene(byte[] encodedAudio, PApplet parent) {
