@@ -30,9 +30,6 @@ public class DrawString {
 	
 	public void update(String newContent) {
 		content = newContent.toCharArray();
-		for(char c : content) {
-			System.out.println((byte)(c-32));
-		}
 	}
 
 }

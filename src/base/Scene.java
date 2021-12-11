@@ -28,7 +28,7 @@ public abstract class Scene extends PGraphicsJava2D {
 		//Processing's anti-aliasing params can only be changed in settings() in non-PDE mode,
 		//so I used JAVA's native anti-aliasing functions in the Graphics2D class.
 		Graphics2D nativGraphics2d;
-		switch (WaveformDrawing.antialiasingLevel) {
+		switch (SpectrogramDrawing.antialiasingLevel) {
 		case 1:
 			//Apply bilinear filter to rendered image
 			nativGraphics2d = ((Graphics2D)getNative());

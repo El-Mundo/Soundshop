@@ -8,9 +8,11 @@ import java.awt.event.ComponentListener;
 
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
+import resources.GraphicResouces;
 import scenes.FileSelectScene;
+import scenes.SoundEditScene;
 
-public class WaveformDrawing extends PApplet {
+public class SpectrogramDrawing extends PApplet {
 	
 	private final static int DEFAULT_WIDTH = 720, DEFAULT_HEIGHT = 480;
 	private final static float DEFAULT_SCALE = 0.75F, DEFAULT_RATIO = (float)DEFAULT_WIDTH / (float)DEFAULT_HEIGHT;
@@ -28,11 +30,15 @@ public class WaveformDrawing extends PApplet {
 	public static Frame nativeWindow;
 	
 	public FileSelectScene fileSelectScene;
+	public SoundEditScene soundEditScene;
 	
-	public static PApplet main;
+	//From 0-DEFAULT_WIDTH this factor controls the transition process
+	public int transitionFactor = 0, transitionController = 0;
+	
+	public static SpectrogramDrawing main;
 
 	public static void main(String args[]) {
-		PApplet.main("base.WaveformDrawing");
+		PApplet.main("base.SpectrogramDrawing");
 	}
 	
 	@Override
@@ -59,6 +65,7 @@ public class WaveformDrawing extends PApplet {
 				
 		//To make the window adaptable for most devices
 		surface.setResizable(true);
+		surface.setIcon(GraphicResouces.ICON);
 		//Add a listener so that resizing the window can be detected
 		nativeWindow = ((SmoothCanvas)(surface.getNative())).getFrame();
 		nativeWindow.addComponentListener(resizeListener);
@@ -76,7 +83,7 @@ public class WaveformDrawing extends PApplet {
 			
 			break;
 			
-		case 2: //Transition
+		case 2: //Transition to sound editing
 			
 			break;
 			
@@ -133,7 +140,7 @@ public class WaveformDrawing extends PApplet {
 	private static ComponentListener resizeListener = new ComponentListener() {
 		@Override
 		public void componentResized(ComponentEvent e) {
-			((WaveformDrawing)main).resize();
+			((SpectrogramDrawing)main).resize();
 		}
 		
 		@Override

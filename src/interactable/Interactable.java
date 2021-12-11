@@ -1,6 +1,6 @@
 package interactable;
 
-import base.WaveformDrawing;
+import base.SpectrogramDrawing;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -37,8 +37,8 @@ public abstract class Interactable {
 	}
 
 	public boolean mouseSelected(PGraphics g) {
-		if(WaveformDrawing.cursorX > x && WaveformDrawing.cursorX < x + width) {
-			if(WaveformDrawing.cursorY > y && WaveformDrawing.cursorY < y + height) {
+		if(SpectrogramDrawing.cursorX > x && SpectrogramDrawing.cursorX < x + width) {
+			if(SpectrogramDrawing.cursorY > y && SpectrogramDrawing.cursorY < y + height) {
 				return true;
 			}
 		}
@@ -58,13 +58,13 @@ public abstract class Interactable {
 			g.push();
 			int tempW = width;
 			int tempH = height;
-			if(WaveformDrawing.clicked) {
+			if(SpectrogramDrawing.clicked) {
 				g.tint(80);
 				tempW = (int) (width * PRESS_SCALE);
 				tempH = (int) (height * PRESS_SCALE);
 			}else {
 				g.tint(170);
-				if(WaveformDrawing.pClicked) {
+				if(SpectrogramDrawing.pClicked) {
 					interact();
 				}
 			}

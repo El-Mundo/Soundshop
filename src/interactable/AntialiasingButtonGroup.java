@@ -1,6 +1,6 @@
 package interactable;
 
-import base.WaveformDrawing;
+import base.SpectrogramDrawing;
 
 public class AntialiasingButtonGroup extends ButtonGroup {
 
@@ -11,7 +11,7 @@ public class AntialiasingButtonGroup extends ButtonGroup {
 	@Override
 	public void interact() {
 		if(sel >= 0 && sel < 3)
-			WaveformDrawing.antialiasingLevel = sel;
+			SpectrogramDrawing.antialiasingLevel = sel;
 	}
 
 }
