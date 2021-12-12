@@ -1,5 +1,11 @@
 package base;
 
+/*
+ * @version 0.0.6
+ * @author Shuangyuan Cao
+ * @since 0.0.1
+ */
+
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
@@ -23,6 +29,7 @@ public class SpectrogramDrawing extends PApplet {
 	
 	public static int antialiasingLevel = 0;
 	private static int state = 0;
+	public boolean transiting = false;
 	
 	public static int cursorX, cursorY, pCursorX, pcursorY;
 	public static boolean clicked = false, pClicked = false;
@@ -81,14 +88,38 @@ public class SpectrogramDrawing extends PApplet {
 		
 		switch (state) {
 		case 1: //Sound editing
-			
+			transiting = false;
+			if(soundEditScene != null) {
+				soundEditScene.draw();
+				image(soundEditScene, 0, 0);
+			}
 			break;
 			
 		case 2: //Transition to sound editing
+			transiting = true;
+			fileSelectScene.draw();
+			image(fileSelectScene, 0, 0);
+			if(soundEditScene != null) {
+				soundEditScene.draw();
+				image(soundEditScene, 0, 0);
+			}
+			
+			transitionFactor += transitionController;
+			
+			if(transitionFactor <= -DEFAULT_WIDTH) {
+				transitionFactor = -DEFAULT_WIDTH;
+				state = 1;
+			}else if(transitionFactor >= 0) {
+				transitionFactor = 0;
+				state = 0;
+			}
+			
+			System.out.println(transitionFactor);
 			
 			break;
 			
 		default: //File selection
+			transiting = false;
 			fileSelectScene.draw();
 			image(fileSelectScene, 0, 0);
 			break;
@@ -151,5 +182,18 @@ public class SpectrogramDrawing extends PApplet {
 		@Override
 		public void componentHidden(ComponentEvent e) {}
 	};
+	
+	public void transitToSoundEditting(SoundEditScene scene) {
+		soundEditScene = scene;
+		transitionController = -25;
+		state = 2;
+		AudioOutput.stopMusic();
+	}
+	
+	public void transitToFileSelection() {
+		transitionController = 25;
+		state = 2;
+		AudioOutput.playMusic();
+	}
 
 }

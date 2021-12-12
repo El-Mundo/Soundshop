@@ -46,7 +46,7 @@ public abstract class Interactable {
 	}
 	
 	public void display(PGraphics g) {
-		if(inactive) {
+		if(inactive || SpectrogramDrawing.main.transiting) {
 			g.tint(220, 120, 0);
 			if(image != null) {
 				g.image(this.image, this.x, this.y, this.width, this.height);

@@ -1,14 +1,14 @@
 package interactable;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 import base.AudioOutput;
+import base.SpectrogramDrawing;
 import resources.AudioResources;
 import resources.GraphicResouces;
 import scenes.FileSelectScene;
+import scenes.SoundEditScene;
 
 public class ProcessButton extends Button {
 
@@ -20,13 +20,11 @@ public class ProcessButton extends Button {
 	public void interact() {
 		try {
 			File f = new File(FileSelectScene.pathString);
-			BufferedReader reader = new BufferedReader(new FileReader(f));
-			int i;
+			if(!f.canRead()) throw new IOException();
+			
 			AudioOutput.playBytesAsAudio(AudioResources.BYTE_SFX_HINT);
-			while((i = reader.read()) != -1) {
-				System.out.print(i);
-			}
-			reader.close();
+			
+			new SoundEditScene(SpectrogramDrawing.main);
 		} catch (IOException e) {
 			e.printStackTrace();
 			FileSelectScene.guideline.setColor(180, 0, 0);
