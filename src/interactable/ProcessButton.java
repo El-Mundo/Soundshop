@@ -8,7 +8,6 @@ import base.SpectrogramDrawing;
 import resources.AudioResources;
 import resources.GraphicResouces;
 import scenes.FileSelectScene;
-import scenes.SoundEditScene;
 
 public class ProcessButton extends Button {
 
@@ -24,14 +23,19 @@ public class ProcessButton extends Button {
 			
 			AudioOutput.playBytesAsAudio(AudioResources.BYTE_SFX_HINT);
 			
-			new SoundEditScene(SpectrogramDrawing.main);
+			SpectrogramDrawing.loadingSceneInBkg = true;
+
 		} catch (IOException e) {
 			e.printStackTrace();
-			FileSelectScene.guideline.setColor(180, 0, 0);
-			FileSelectScene.guideline.update("Cannot read input audio file!");
-			//AudioResources.SFX_WARNING.play();
-			AudioOutput.playBytesAsAudio(AudioResources.BYTE_SFX_WARNING);
+			loadingFailed();
 		}
+	}
+	
+	private static void loadingFailed() {
+		FileSelectScene.guideline.setColor(180, 0, 0);
+		FileSelectScene.guideline.update("Cannot read input audio file!");
+		//AudioResources.SFX_WARNING.play();
+		AudioOutput.playBytesAsAudio(AudioResources.BYTE_SFX_WARNING);
 	}
 
 

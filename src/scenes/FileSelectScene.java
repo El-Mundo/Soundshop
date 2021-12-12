@@ -20,6 +20,7 @@ public class FileSelectScene extends Scene {
 	public static DrawString workingPath = new DrawString("/.."), guideline = new DrawString("Please select a .wav audio file.");
 	public static String pathString = "";
 	private final static DrawString GUI_SELECTED_FILE = new DrawString("Selected File:");
+	public static DrawString soundInfo = new DrawString("FFT Info:\nwating for process");
 
 	public FileSelectScene(int width, int height, PApplet parent) {
 		super(width, height, parent);
@@ -38,19 +39,23 @@ public class FileSelectScene extends Scene {
 	public void drawContent() {
 		background(255, 245, 157);
 		
-		stroke(251, 192, 45);
-		strokeWeight(4);
-		
 		translate(SpectrogramDrawing.main.transitionFactor, 0);
 		
 		image(GraphicResouces.SMOOTH, 16, 10, 96, 20);
-		line(-1, 40, width + 1, 40);
 		
 		noStroke();
 		fill(230, 238, 156);
+		rect(0, 40, 304, 272);
+		strokeWeight(4);
+		stroke(139, 195, 74);
+		line(304, 40, 304, 312);
+		stroke(251, 192, 45);
+		line(-1, 40, width + 1, 40);
+		soundInfo.draw(this, 0, 48, 16);
+		
+		noStroke();
 		rect(-1, 314, width + 2, 32);
 		stroke(139, 195, 74);
-		strokeWeight(4);
 		noFill();
 		line(-1, 312, width + 1, 312);
 		guideline.draw(this, 8, 320, 16);
@@ -63,6 +68,14 @@ public class FileSelectScene extends Scene {
 		for(Button b : buttons) {
 			b.display(this);
 		}
+	}
+	
+	public static void clearFFTInfo() {
+		soundInfo.update("FFT Info:\nwating for process");
+	}
+	
+	public void setProcessButtonEnabled(boolean enabled) {
+		buttons[4].inactive = !enabled;
 	}
 
 }

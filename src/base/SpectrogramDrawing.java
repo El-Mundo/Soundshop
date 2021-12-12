@@ -11,9 +11,11 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.IOException;
 
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
+import resources.AudioResources;
 import resources.GraphicResouces;
 import scenes.FileSelectScene;
 import scenes.SoundEditScene;
@@ -82,7 +84,12 @@ public class SpectrogramDrawing extends PApplet {
 	
 	@Override
 	public void draw() {
-		background(0);
+		if(loadingSceneInBkg) {
+			loadingSceneInBkg = false;
+			thread("loadSceneInBackgroound");
+		}
+		
+		background(255, 245, 157);
 		translate(frameOffsetX, frameOffsetY);
 		scale(frameScale);
 		
@@ -113,8 +120,6 @@ public class SpectrogramDrawing extends PApplet {
 				transitionFactor = 0;
 				state = 0;
 			}
-			
-			System.out.println(transitionFactor);
 			
 			break;
 			
@@ -194,6 +199,22 @@ public class SpectrogramDrawing extends PApplet {
 		transitionController = 25;
 		state = 2;
 		AudioOutput.playMusic();
+	}
+	
+	public static boolean loadingSceneInBkg = false;
+	
+	public void loadSceneInBackgroound() {
+		try {
+			fileSelectScene.setProcessButtonEnabled(false);
+			new SoundEditScene(this);
+			fileSelectScene.setProcessButtonEnabled(true);
+		} catch (IOException e) {
+			e.printStackTrace();
+			FileSelectScene.guideline.setColor(180, 0, 0);
+			FileSelectScene.guideline.update("Failed applying FFT to the input file.");
+			AudioOutput.playBytesAsAudio(AudioResources.BYTE_SFX_WARNING);
+			fileSelectScene.setProcessButtonEnabled(true);
+		}
 	}
 
 }

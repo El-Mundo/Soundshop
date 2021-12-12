@@ -11,6 +11,7 @@ public class BackButton extends Button {
 
 	@Override
 	public void interact() {
+		//FileSelectScene.clearFFTInfo();
 		SpectrogramDrawing.main.transitToFileSelection();
 	}
 

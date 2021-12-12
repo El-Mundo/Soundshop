@@ -61,6 +61,14 @@ public class DrawSpectrogram {
         System.out.println("frequency_resolution:         " + frequency_resolution + " Hz");
         System.out.println("highest_detectable_frequency: " + highest_detectable_frequency + " Hz");
         System.out.println("lowest_detectable_frequency:  " + lowest_detectable_frequency + " Hz");
+        String[] lineTemp = new String[5];
+        lineTemp[0] = "freq: "+frequency_resolution+"hz";
+        lineTemp[1] = "max freq:"+highest_detectable_frequency;
+        lineTemp[2] = "min_freq:"+lowest_detectable_frequency;
+        for(int i=0;i<lineTemp.length;i++) 
+        	if(lineTemp[i] != null) if(lineTemp[i].length() > 18) lineTemp[i] = lineTemp[i].substring(0, 15).concat("...");
+        FileSelectScene.soundInfo.update("FFT Info:\n"+lineTemp[0]+"\n"
+        		+lineTemp[1]+"\n"+lineTemp[2]);
 
         //initialize plotData array
         int nX = (length - WS) / windowStep;
@@ -75,6 +83,10 @@ public class DrawSpectrogram {
 
         double[] inputImag = new double[length];
         double threshold = 1.0;
+        
+        FileSelectScene.soundInfo.update("FFT Info:\n"+lineTemp[0]+"\n"
+        		+lineTemp[1]+"\n"+lineTemp[2]+"\n\nperforming FFT...");
+        int progress = 0, total = nX * nY;
 
         for (int i = 0; i < nX; i ++) {
             Arrays.fill(inputImag, 0.0);
@@ -93,7 +105,10 @@ public class DrawSpectrogram {
                     maxAmp = plotData[i][j];
                 else if (plotData[i][j] < minAmp)
                     minAmp = plotData[i][j];
-
+                
+                FileSelectScene.soundInfo.update("FFT Info:\n"+lineTemp[0]+"\n"
+                		+lineTemp[1]+"\n"+lineTemp[2]+"\n\nperforming FFT..."+"\n("+progress+"/"+total+")");
+                progress++;
             }
         }
 
@@ -101,6 +116,14 @@ public class DrawSpectrogram {
         System.out.println("Maximum amplitude: " + maxAmp);
         System.out.println("Minimum amplitude: " + minAmp);
         System.out.println("---------------------------------------------------");
+        lineTemp[3] = "amp max: "+maxAmp;
+        lineTemp[4] = "amp min:"+minAmp;
+        for(int i=0;i<lineTemp.length;i++) 
+        	if(lineTemp[i] != null) if(lineTemp[i].length() > 18) lineTemp[i] = lineTemp[i].substring(0, 15).concat("...");
+        FileSelectScene.soundInfo.update("FFT Info:\n"+lineTemp[0]+"\n"
+        		+lineTemp[1]+"\n"+lineTemp[2]+"\n\nperforming FFT..."+"\n\n"+
+        		lineTemp[3]+"\n"+lineTemp[4]);
+        System.out.println(lineTemp[3]);
 
         //Normalization
         double diff = maxAmp - minAmp;
@@ -110,6 +133,10 @@ public class DrawSpectrogram {
                 //if(plotData[i][j] < 0.9) plotData[i][j] = 0;
             }
         }
+        
+        FileSelectScene.soundInfo.update("FFT Info:\n"+lineTemp[0]+"\n"
+        		+lineTemp[1]+"\n"+lineTemp[2]+"\n\nperforming FFT..."+"\n\n"+
+        		lineTemp[3]+"\n"+lineTemp[4]+"\n\n"+"normalizing...");
         
         //ADDED HERE: We normalize again for each sample
         diff = maxAmp - minAmp;
@@ -129,6 +156,10 @@ public class DrawSpectrogram {
             	plotData[i][j] = (plotData[i][j] - sampleMin) / diff;
             }
         }
+        
+        FileSelectScene.soundInfo.update("FFT Info:\n"+lineTemp[0]+"\n"
+        		+lineTemp[1]+"\n"+lineTemp[2]+"\n\nperforming FFT..."+"\n\n"+
+        		lineTemp[3]+"\n"+lineTemp[4]+"\n\n"+"normalizing..."+"\nrasterising...");
 
         //plot image
         PImage img = SpectrogramDrawing.main.createImage(nX, nY, PConstants.ALPHA);
@@ -140,6 +171,11 @@ public class DrawSpectrogram {
                 img.set(x, y, getColor(ratio));
             }
         }
+        
+        FileSelectScene.soundInfo.update("FFT Info:\n"+lineTemp[0]+"\n"
+        		+lineTemp[1]+"\n"+lineTemp[2]+"\n\nperforming FFT..."+"\n\n"+
+        		lineTemp[3]+"\n"+lineTemp[4]+"\n\n"+"normalizing..."+"\nrasterising..."+"\n\ncomplete.");
+        
         return img;
     }
 

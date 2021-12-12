@@ -1,9 +1,10 @@
 package sound;
 
 public class FFT {
-//https://stackoverflow.com/questions/3287518/reliable-and-fast-fft-in-java
+	//Processing's default FFT function only support real-time decoding so we use an alternative algorithm
 	
 	public static double[] fft(final double[] inputReal, double[] inputImag, boolean DIRECT) {
+		//https://stackoverflow.com/questions/3287518/reliable-and-fast-fft-in-java
 		int n = inputReal.length;
 		
 		double ld = Math.log(n) / Math.log(2.0);
@@ -92,6 +93,12 @@ public class FFT {
 	        j1 = j2;
 	    }
 	    return k;
-	  }
+	}
+	
+	
+	public static double inverseFFT() {
+		
+	}
+	
 
 }
