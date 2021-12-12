@@ -44,5 +44,9 @@ public class DrawString {
 		color[1] = g;
 		color[2] = b;
 	}
+	
+	public int getWidth(int size) {
+		return content.length * size;
+	}
 
 }

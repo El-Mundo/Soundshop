@@ -17,8 +17,9 @@ public class FileSelectScene extends Scene {
 	public File file;
 	Button[] buttons;
 	AntialiasingButtonGroup smoothSetting;
-	public static DrawString workingPath = new DrawString("/.."), guideline = new DrawString("Please select a .wav audio file.");
+	public static DrawString workingPath = new DrawString("/.."), guideline = new DrawString("Please select a wav audio or png image file.");
 	public static String pathString = "";
+	public static File selectedFile;
 	private final static DrawString GUI_SELECTED_FILE = new DrawString("Selected File:");
 	public static DrawString soundInfo = new DrawString("FFT Info:\nwating for process");
 
@@ -58,7 +59,7 @@ public class FileSelectScene extends Scene {
 		stroke(139, 195, 74);
 		noFill();
 		line(-1, 312, width + 1, 312);
-		guideline.draw(this, 8, 320, 16);
+		guideline.draw(this, 360 - guideline.getWidth(16) / 2, 320, 16);
 		
 		stroke(251, 192, 45);
 		line(-1, 344, width + 1, 344);

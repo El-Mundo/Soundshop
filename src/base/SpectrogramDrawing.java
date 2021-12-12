@@ -13,6 +13,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
 
+import ddf.minim.Minim;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
 import resources.AudioResources;
@@ -37,6 +38,8 @@ public class SpectrogramDrawing extends PApplet {
 	public static boolean clicked = false, pClicked = false;
 	
 	public static Frame nativeWindow;
+	
+	public static Minim minim;
 	
 	public FileSelectScene fileSelectScene;
 	public SoundEditScene soundEditScene;
@@ -80,6 +83,9 @@ public class SpectrogramDrawing extends PApplet {
 		nativeWindow = ((SmoothCanvas)(surface.getNative())).getFrame();
 		nativeWindow.addComponentListener(resizeListener);
 		nativeWindow.setMinimumSize(WINDOW_MINIMUM);
+		
+		//Initialize Minim Audio library
+		minim = new Minim(this);
 	}
 	
 	@Override
@@ -206,7 +212,10 @@ public class SpectrogramDrawing extends PApplet {
 	public void loadSceneInBackgroound() {
 		try {
 			fileSelectScene.setProcessButtonEnabled(false);
-			new SoundEditScene(this);
+			if(FileSelectScene.pathString.toLowerCase().endsWith(".wav"))
+				new SoundEditScene(this);
+			else
+				new SoundEditScene(this, this.loadImage(FileSelectScene.pathString));
 			fileSelectScene.setProcessButtonEnabled(true);
 		} catch (IOException e) {
 			e.printStackTrace();

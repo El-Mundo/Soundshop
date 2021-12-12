@@ -18,7 +18,8 @@ public class ProcessButton extends Button {
 	@Override
 	public void interact() {
 		try {
-			File f = new File(FileSelectScene.pathString);
+			File f = FileSelectScene.selectedFile;
+			if(f == null) throw new IOException();
 			if(!f.canRead()) throw new IOException();
 			
 			AudioOutput.playBytesAsAudio(AudioResources.BYTE_SFX_HINT);

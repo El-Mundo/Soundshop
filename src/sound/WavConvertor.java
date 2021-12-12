@@ -1,5 +1,6 @@
 package sound;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
@@ -19,8 +20,8 @@ public class WavConvertor {
         return SR;
     }
 
-    public WavConvertor(String filepath, boolean print_info) throws IOException{
-        Path path = Paths.get(filepath);
+    public WavConvertor(File selectedFile, boolean print_info) throws IOException{
+        Path path = Paths.get(selectedFile.getAbsolutePath());
         this.entireFileData = Files.readAllBytes(path);
 
         if (print_info){
@@ -44,7 +45,7 @@ public class WavConvertor {
 	        int BPS = entireFileData[34];
 	
 	        System.out.println("---------------------------------------------------");
-	        System.out.println("File path:          " + filepath);
+	        System.out.println("File path:          " + selectedFile);
 	        System.out.println("File format:        " + format);
 	        System.out.println("Number of channels: " + noOfChannels_str);
 	        System.out.println("Sampling rate:      " + SR);

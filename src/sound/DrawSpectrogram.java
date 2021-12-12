@@ -1,9 +1,14 @@
 package sound;
 
+import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
 import base.SpectrogramDrawing;
+import ddf.minim.AudioSample;
+import math.FFT;
+import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -15,7 +20,16 @@ public class DrawSpectrogram {
 	private PImage image;
 
 	public DrawSpectrogram() throws IOException {
-		this.image = draw(FileSelectScene.pathString);
+		this.image = analyzeAllSamples(FileSelectScene.selectedFile);
+	}
+	
+	public DrawSpectrogram(PImage image) throws IOException {
+		this.image = image;
+		this.image.filter(PImage.GRAY);
+		//We want the image to always have 512 pixels on each column for inverse FFT
+		if(this.image.height != 512) {
+			this.image.resize(image.width, 512);
+		}
 	}
 	
 	public void draw(PGraphics g, int x, int y) {
@@ -33,15 +47,69 @@ public class DrawSpectrogram {
 	public int getHeight() {
 		return image.height;
 	}
+	
+	public static PImage analyzeAllSamples(File selectedFile) {
+		//Processing's default FFT function only analyzes the samples that are already loaded in the audio buffer,
+		//so we use this referenced function to load all samples at initial load.
+		//https://forum.processing.org/one/topic/how-to-generate-a-simple-waveform-of-an-entire-sound-file.html
+		
+		AudioSample jingle = SpectrogramDrawing.minim.loadSample(selectedFile.getAbsolutePath(), 2048);
+		   
+		float[] leftChannel = jingle.getChannel(AudioSample.LEFT);
+		  
+		int fftSize = 1024;
+		float[] fftSamples = new float[fftSize];
+		ddf.minim.analysis.FFT fft = new ddf.minim.analysis.FFT(fftSize, jingle.sampleRate());
+		
+		int totalChunks = (leftChannel.length / fftSize) + 1;
+		
+		float[][] spectra = new float[totalChunks][fftSize/2];
+		float min = Float.MAX_VALUE;
+		float max = Float.MIN_VALUE;
+		
+		for(int chunkIdx = 0; chunkIdx < totalChunks; ++chunkIdx) {
+			int chunkStartIndex = chunkIdx * fftSize;
+			int chunkSize = PApplet.min(leftChannel.length - chunkStartIndex, fftSize);
+			
+			for(int i=0; i<chunkSize; i++) {
+				if(i >= fftSamples.length) break;
+				if(i+chunkStartIndex < leftChannel.length)
+					fftSamples[i] = leftChannel[i+chunkStartIndex];
+			}
+		      
+		    if (chunkSize < fftSize)
+		    	java.util.Arrays.fill(fftSamples, chunkSize, fftSamples.length - 1, 0.0f);
+		    
+		    fft.forward(fftSamples);
+		   
+		    for(int i = 0; i < fftSize/2; ++i) {
+		      spectra[chunkIdx][i] = fft.getBand(i);
+		      if(spectra[chunkIdx][i] > max) max = spectra[chunkIdx][i];
+		      if(spectra[chunkIdx][i] < min) min = spectra[chunkIdx][i];
+		    }
+	    }
+		jingle.close();
+		
+		PImage img = new PImage(spectra.length, spectra[0].length, PImage.RGB);
+		for(int s = 0; s < spectra.length; s++) {
+		    for(int i = 0; i < spectra[s].length-1; i++) {
+		    	int rgb = (int) PApplet.map(spectra[s][i], min, 1, 0, 255);
+		    	if(rgb>255)rgb=255;if(rgb<0)rgb=0;
+		        img.pixels[i*img.width+s] = (new Color(rgb, rgb, rgb)).getRGB();
+		    }
+		}
+		img.updatePixels();
+		return img;
+	}
 
 	public static byte getColor(double power) {
 		byte RGB = (byte)(power * 255.0);
         return RGB;
     }
 
-    public static PImage draw(String filePath) throws IOException {
+    public static PImage draw(File selectedFile) throws IOException {
         //get raw double array containing .WAV data
-        WavConvertor audioTest = new WavConvertor(filePath, true);
+        WavConvertor audioTest = new WavConvertor(selectedFile, true);
         double[] rawData = audioTest.getByteArray();
         int length = rawData.length;
 
