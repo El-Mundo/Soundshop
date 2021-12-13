@@ -10,7 +10,9 @@ Setup:
 4. Select a .wav or .png file at the beginning page.
 5. Select a filter in the second page and drag the bar to apply the filter at certain magnitude.
 6. The save section allows saving the results as png or wav. The saved results will be on the directory of the loaded file. The save wav requires to start a recorder and play the audio once.
+
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/guide.png)
+
 a1. The playback position can be changed by clicking on the spectrogram.
 a2. Please note that changing a filter will result in the processed image to be staged.
 a3. There are two settings on the load file scene. The "smooth" decides the anti-aliasing level of images, and the "filter" decides whether the loaded sound samples should be squared to remove noises.
