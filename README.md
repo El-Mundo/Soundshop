@@ -4,12 +4,13 @@ This project attempts at applying blurring filters to audio files based on their
 All used resources are packed as JAVA byte arrays to avoid pre-loading troubles.
 
 Setup:
-1. Check if the device has Java Virtual Machine (JVM) installed, and if the software cannot start, please try JVM with a version higher than 1.8.0.
-2. Only the .jar, which can be found in the release section of this page, is needed for using it.
-3. Open the .jar file in the release section with JVM.
+1. Check if the device has Java Virtual Machine (JVM) installed.
+2. Only the .jar is needed for setting up, which can be found in the release section of this page.
+3. Open the .jar file with JVM. If the software still cannot start, please try JVM with a version higher than 1.8.0.
 4. Select a .wav or .png file at the beginning page.
 5. Select a filter in the second page and drag the bar to apply the filter at certain magnitude.
-6. The save section allows saving the results as png or wav. The saved results will be on the directory of the loaded file. The save wav requires to start a recorder and play the audio once.
+6. The save section allows saving the results as png or wav files. The saved results will be on the directory of the loaded file.
+The wav saving requires to start a recorder and play the audio once, and all input will be ignored during the record.
 
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/guide.png)
 
