@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 import base.SpectrogramDrawing;
+import ddf.minim.Minim;
 import ddf.minim.UGen;
 import ddf.minim.analysis.FourierTransform;
 import processing.core.PApplet;
@@ -41,7 +42,7 @@ public class DrawSpectrogram {
 	}
 	
 	public void playSound() {
-		ddf.minim.AudioOutput out = SpectrogramDrawing.minim.getLineOut();
+		ddf.minim.AudioOutput out = SpectrogramDrawing.minim.getLineOut(Minim.MONO, 2048);
 		player.patch(out);
 		
 		for(int x=(int)PApplet.map(parentScene.posX, 0.0f, 1.0f, 0, image.width); x<image.width; x++) {

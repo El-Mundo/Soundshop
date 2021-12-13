@@ -87,6 +87,10 @@ public class SoundEditScene extends Scene {
 		
 		console.draw(this, 360 - console.getWidth(16) / 2, height - 112, 16);
 		
+		(new DrawString("Gaussian")).draw(this, 120, 448, 16);
+		(new DrawString("Motion")).draw(this, 320, 448, 16);
+		(new DrawString("Radial")).draw(this, 490, 448, 16);
+		
 		for(Interactable i : interactables) {
 			i.display(this);
 		}
