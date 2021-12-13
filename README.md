@@ -3,8 +3,15 @@ This project attempts at applying blurring filters to audio files based on their
 
 All used resources are packed as JAVA byte arrays to avoid pre-loading troubles.
 
-To use this software, select a .wav or .png file at the beginning page, select a filter in the second page, and drag the bar to apply the filter at certain magnitude.
-It loads both audio and image files as pixel arrays, draw them as grey-scale images, and allows the user to apply some image filters (typically blurring) to audio.
+Setup:
+1. Check if the device has Java Virtual Machine (JVM) installed, and if the software cannot start, please try JVM with a version higher than 1.8.0.
+2. Only the .jar, which can be found in the release section of this page, is needed for using it.
+3. Open the .jar file in the release section with JVM.
+4. Select a .wav or .png file at the beginning page.
+5. Select a filter in the second page and drag the bar to apply the filter at certain magnitude.
+6. The playback position can be changed by clicking on the spectrogram.
+
+This program loads both audio and image files as pixel arrays, draw them as grey-scale images, and allows the user to apply some image filters (typically blurring) to audio.
 For more specified information about the codes, please refer to the top area of the main class (src/base/SpectrogramDrawing.java).
 
 Log:
