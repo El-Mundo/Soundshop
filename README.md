@@ -13,10 +13,11 @@ Setup:
 
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/guide.png)
 
-a1. The playback position can be changed by clicking on the spectrogram.
-a2. Please note that changing a filter will result in the processed image to be staged.
-a3. There are two settings on the load file scene. The "smooth" decides the anti-aliasing level of images, and the "filter" decides whether the loaded sound samples should be squared to remove noises.
-a4. Please use the radial filter carefully as it may generate very screeched sounds.
+Tips:
+1. The playback position can be changed by clicking on the spectrogram.
+2. Please note that changing a filter will result in the processed image to be staged.
+3. There are two settings on the load file scene. The "smooth" decides the anti-aliasing level of images, and the "filter" decides whether the loaded sound samples should be squared to remove noises.
+4. Please use the radial filter carefully as it may generate very screeched sounds.
 
 This program loads both audio and image files as pixel arrays, draw them as grey-scale images, and allows the user to apply some image filters (typically blurring) to audio.
 For more specified information about the codes, please refer to the top area of the main class (src/base/SpectrogramDrawing.java).
