@@ -11,6 +11,8 @@ Setup:
 5. Select a filter in the second page and drag the bar to apply the filter at certain magnitude.
 6. The playback position can be changed by clicking on the spectrogram.
 
+![image](https://github.com/El-Mundo/Soundshop/blob/master/guide.png)
+
 This program loads both audio and image files as pixel arrays, draw them as grey-scale images, and allows the user to apply some image filters (typically blurring) to audio.
 For more specified information about the codes, please refer to the top area of the main class (src/base/SpectrogramDrawing.java).
 
