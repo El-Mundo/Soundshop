@@ -1,7 +1,7 @@
 package base;
 
 /*
- * @version 1.0.4
+ * @version 1.0.5
  * @author Shuangyuan Cao
  * @since 0.0.1
  * 
@@ -33,6 +33,8 @@ import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
 
 import com.jhlabs.image.BoxBlurFilter;
 import com.jhlabs.image.MotionBlurOp;
@@ -75,8 +77,16 @@ public class SpectrogramDrawing extends PApplet {
 	public int transitionFactor = 0, transitionController = 0;
 	
 	public static SpectrogramDrawing main;
+	public static boolean forceQuit = false;
+	
+	private static Thread disconnect = new Thread() {
+		public void run() {
+			forceQuit = true;
+		}
+	};
 
 	public static void main(String args[]) {
+		java.lang.Runtime.getRuntime().addShutdownHook(disconnect);
 		AudioOutput.initAudioDevice();
 		PApplet.main("base.SpectrogramDrawing");
 	}
@@ -110,6 +120,9 @@ public class SpectrogramDrawing extends PApplet {
 		nativeWindow = ((SmoothCanvas)(surface.getNative())).getFrame();
 		nativeWindow.addComponentListener(resizeListener);
 		nativeWindow.setMinimumSize(WINDOW_MINIMUM);
+		
+		JFrame frame = (JFrame)nativeWindow;
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Initialize Minim library
 		minim = new Minim(this);
@@ -172,6 +185,8 @@ public class SpectrogramDrawing extends PApplet {
 		cursorX = (int)((float)(this.mouseX - frameOffsetX) / frameScale);
 		cursorY = (int)((float)(this.mouseY - frameOffsetY) / frameScale);
 		circle(cursorX, cursorY, 6.0f / frameScale);
+		
+		if(forceQuit) exit();
 	}
 	
 	@Override

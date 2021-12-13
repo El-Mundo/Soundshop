@@ -148,6 +148,8 @@ public class SoundEditScene extends Scene {
 		gaussianSetter.reset();
 		radialSetter.reset();
 		motionSetter.reset();
+		saveWavButton.reset();
+		spectrogram.log("Info will be printed here.");
 	}
 	
 	public String savePng() {

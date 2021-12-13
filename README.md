@@ -54,3 +54,5 @@ Update v.1.0.1(13/12/2021): Added support for wav export.
 Update v.1.0.2(13/12/2021): Added motion blur and radial blur based on JH Labs.
 
 Update v.1.0.4(13/12/2021): Added filter switch to determine whether the samples should be squared.
+
+Update v.1.0.5(13/12/2021): Fixed a BUG that the program cannot exit properly when recording wav stream.

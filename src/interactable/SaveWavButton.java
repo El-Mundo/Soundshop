@@ -29,5 +29,9 @@ public class SaveWavButton extends Button {
 			triggered = true;
 		}
 	}
+	
+	public void reset() {
+		triggered = false;
+	}
 
 }

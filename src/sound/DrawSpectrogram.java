@@ -69,7 +69,7 @@ public class DrawSpectrogram {
 				buf[0] = color.getRed();
 			}
 			//Shut this thread down when playing is stopped
-			if(!parentScene.isPlaying) {
+			if(!parentScene.isPlaying || SpectrogramDrawing.forceQuit) {
 				endSound(out);
 				return;
 			}
@@ -101,6 +101,11 @@ public class DrawSpectrogram {
 				Color color = (new Color(image.get(x, y)));
 				player.setBand(PApplet.min(y, 511), (float)color.getRed());
 				buf[0] = color.getRed();
+			}
+			if(SpectrogramDrawing.forceQuit) {
+				endSound(out);
+				recorder.endRecord();
+				return;
 			}
 			parentScene.posX = (float)x / (float)image.width;
 			
