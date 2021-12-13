@@ -1,9 +1,22 @@
 package base;
 
 /*
- * @version 0.0.6
+ * @version 1.0.0
  * @author Shuangyuan Cao
  * @since 0.0.1
+ * 
+ * Github page:
+ * https://github.com/El-Mundo/Soundshop
+ * 
+ * References:
+ * 1. Aung's code for drawing spectrogram with FFT
+ * https://stackoverflow.com/questions/39295589/creating-spectrogram-from-wav-using-fft-in-java
+ * 2. Princeton University's code for Fast Fourier Transform and complex numbers
+ * https://introcs.cs.princeton.edu/java/97data/FFT.java.html
+ * 3. Joachim Sauer's code for concating arrays
+ * https://stackoverflow.com/questions/80476/how-can-i-concatenate-two-arrays-in-java
+ * 4. Jin Lim's code for streaming byte arrays as audio
+ * https://stackoverflow.com/questions/14945217/playing-sound-from-a-byte-array
  */
 
 import java.awt.Dimension;
@@ -11,15 +24,16 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.io.IOException;
 
 import ddf.minim.Minim;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
+import processing.core.PImage;
 import resources.AudioResources;
 import resources.GraphicResouces;
 import scenes.FileSelectScene;
 import scenes.SoundEditScene;
+import sound.DrawSpectrogram;
 
 public class SpectrogramDrawing extends PApplet {
 	
@@ -39,10 +53,11 @@ public class SpectrogramDrawing extends PApplet {
 	
 	public static Frame nativeWindow;
 	
-	public static Minim minim;
-	
 	public FileSelectScene fileSelectScene;
 	public SoundEditScene soundEditScene;
+	
+	public static Minim minim;
+	public static ddf.minim.AudioOutput minimOut;
 	
 	//From 0-DEFAULT_WIDTH this factor controls the transition process
 	public int transitionFactor = 0, transitionController = 0;
@@ -84,8 +99,11 @@ public class SpectrogramDrawing extends PApplet {
 		nativeWindow.addComponentListener(resizeListener);
 		nativeWindow.setMinimumSize(WINDOW_MINIMUM);
 		
-		//Initialize Minim Audio library
+		//Initialize Minim library
 		minim = new Minim(this);
+		minimOut = minim.getLineOut(Minim.MONO, 2048, 44100);
+		
+		AudioOutput.playMusic();
 	}
 	
 	@Override
@@ -202,6 +220,7 @@ public class SpectrogramDrawing extends PApplet {
 	}
 	
 	public void transitToFileSelection() {
+		if(soundEditScene != null) soundEditScene.quit();
 		transitionController = 25;
 		state = 2;
 		AudioOutput.playMusic();
@@ -217,13 +236,47 @@ public class SpectrogramDrawing extends PApplet {
 			else
 				new SoundEditScene(this, this.loadImage(FileSelectScene.pathString));
 			fileSelectScene.setProcessButtonEnabled(true);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			FileSelectScene.guideline.setColor(180, 0, 0);
 			FileSelectScene.guideline.update("Failed applying FFT to the input file.");
 			AudioOutput.playBytesAsAudio(AudioResources.BYTE_SFX_WARNING);
 			fileSelectScene.setProcessButtonEnabled(true);
 		}
+	}
+	
+	public void playAudioInBackgroound() {
+		if(soundEditScene != null) {
+			soundEditScene.playAudio();
+		}
+	}
+	
+	private static float filterValue;
+	private static DrawSpectrogram filterSpectrogram;
+	public static int type;
+	private static boolean filtering = false;
+	public static enum Filters {
+			GAUSSIAN
+	};
+	
+	public static void filter(float value, DrawSpectrogram spectrogram, Filters type) {
+		if(filtering) return;
+		
+		filterValue = value;
+		filterSpectrogram = spectrogram;
+		filtering = true;
+		if(type == Filters.GAUSSIAN) {
+			main.thread("gaussianBlurInBackgroound");
+		}
+	}
+	
+	public void gaussianBlurInBackgroound() {
+		PImage buf = filterSpectrogram.getSourceImage();
+		int l = (int) (3 * filterValue);
+		buf.filter(PImage.BLUR, 3.0f * filterValue);
+		filterSpectrogram.setImage(buf);
+		filterSpectrogram.log("Applied Gaussian Blur level " + l + " to image.");
+		filtering = false;
 	}
 
 }

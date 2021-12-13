@@ -14,13 +14,13 @@ public class WavConvertor {
     private byte[] entireFileData;
 
     //SR = sampling rate
-    public double getSR(){
+    public int getSR() {
         ByteBuffer wrapped = ByteBuffer.wrap(Arrays.copyOfRange(entireFileData, 24, 28)); // big-endian by default
-        double SR = wrapped.order(java.nio.ByteOrder.LITTLE_ENDIAN).getInt();
+        int SR = wrapped.order(java.nio.ByteOrder.LITTLE_ENDIAN).getInt();
         return SR;
     }
 
-    public WavConvertor(File selectedFile, boolean print_info) throws IOException{
+    public WavConvertor(File selectedFile, boolean print_info) throws IOException {
         Path path = Paths.get(selectedFile.getAbsolutePath());
         this.entireFileData = Files.readAllBytes(path);
 
@@ -54,7 +54,7 @@ public class WavConvertor {
         }
     }
 
-    public double[] getByteArray (){
+    public double[] getByteArray() {
         byte[] data_raw = Arrays.copyOfRange(entireFileData, 44, entireFileData.length);
         int totalLength = data_raw.length;
 

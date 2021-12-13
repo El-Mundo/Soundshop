@@ -301,6 +301,22 @@ public class GraphicResouces {
 			121,-107,-119,1,104,90,-23,-93,89,66,50,-64,-26,114,0,41,-41,-37,-120,-18,83,-125,22,0,0,0,0,73,69,78,
 			68,-82,66,96,-126
 	};
+	private final static byte[] BYTE_SETTER = {
+			-119,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,8,0,0,0,12,8,6,0,0,0,95,
+			-98,-4,-99,0,0,0,1,115,82,71,66,0,-82,-50,28,-23,0,0,0,91,73,68,65,84,24,-107,99,100,-128,-128,
+			-1,12,-40,1,35,35,3,3,-61,-1,-103,79,3,-80,-54,-90,75,111,96,96,-62,-95,19,14,-120,83,112,-15,-26,3,
+			12,9,-104,24,11,-70,0,121,86,-100,-67,102,-121,33,1,19,99,-124,-14,-1,-101,79,-55,67,81,112,50,103,18,3,
+			3,3,3,35,65,43,24,-111,-40,112,83,96,-70,-79,105,-8,-49,-128,22,-20,0,12,-44,26,114,-4,-84,24,89,0,
+			0,0,0,73,69,78,68,-82,66,96,-126
+	};
+	private final static byte[] BYTE_SETTER_BKG = {
+			-119,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,64,0,0,0,8,8,6,0,0,0,73,
+			98,-7,-33,0,0,0,1,115,82,71,66,0,-82,-50,28,-23,0,0,0,105,73,68,65,84,72,-119,99,96,64,-128,
+			-1,35,9,123,-87,-14,48,48,48,48,48,48,-62,60,127,-65,80,-115,97,36,1,-59,-2,91,12,94,-86,60,-116,-116,
+			12,35,-48,-13,48,-96,-40,127,-117,-127,105,-96,29,49,-48,-128,-123,-127,-127,-127,97,-61,83,-47,-127,118,-57,0,-127,-47,
+			20,-64,-64,-28,-91,-54,-61,88,-72,-22,-24,64,-69,-125,-18,0,-22,103,72,37,0,-83,18,6,-68,106,-94,51,102,96,
+			96,96,96,0,0,65,75,-121,-58,-113,-68,126,-121,0,0,0,0,73,69,78,68,-82,66,96,-126
+	};
 	
 	public final static PImage BUTTON_CORNER = byteToImage(BYTE_BUTTON[0]), BUTTON_BORDER = byteToImage(BYTE_BUTTON[1]);
 	public final static PImage SMOOTH = byteToImage(BYTE_ANTIALIASE_SWITCH[3]), SMOOTH_2X = byteToImage(BYTE_ANTIALIASE_SWITCH[0]),
@@ -311,5 +327,5 @@ public class GraphicResouces {
 	public final static PImage PROCESS_BUTTON = byteToImage(BYTE_PROCESS);
 	public final static PImage BACK_BUTTON = byteToImage(BYTE_BACK_BUTTON);
 	public final static PImage PLAY_BUTTON = byteToImage(BYTE_PLAY_BUTTON), PAUSE_BUTTON = byteToImage(BYTE_PAUSE_BUTTON);
-	
+	public final static PImage SETTER = byteToImage(BYTE_SETTER), SETTER_BKG = byteToImage(BYTE_SETTER_BKG);
 }

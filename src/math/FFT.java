@@ -1,10 +1,9 @@
 package math;
 
-import java.awt.Color;
-
 public class FFT {
 	//Processing's default FFT function only support real-time decoding so we use an alternative algorithm
-	
+	//https://introcs.cs.princeton.edu/java/97data/FFT.java.html
+		
 	public static double[] fft(final double[] inputReal, double[] inputImag, boolean DIRECT) {
 		//https://stackoverflow.com/questions/3287518/reliable-and-fast-fft-in-java
 		int n = inputReal.length;
@@ -98,157 +97,137 @@ public class FFT {
 	}
 	
 	
-	public ComplexNumber [] recursiveInverseFFT (ComplexNumber [] x){
-	    ComplexNumber z1,z2,z3,z4,tmp,cTwo;
-	    int n = x.length;
-	    int m = n/2;
-	    ComplexNumber [] result = new ComplexNumber [n];
-	    ComplexNumber [] even = new ComplexNumber [m];
-	    ComplexNumber [] odd = new ComplexNumber [m];
-	    ComplexNumber [] sum = new ComplexNumber [m];
-	    ComplexNumber [] diff = new ComplexNumber [m];
-	    cTwo = new ComplexNumber(2,0);
-	    if(n==1){
-	      result[0] = x[0];
-	    }else{
-	      z1 = new ComplexNumber(0.0, 2*(Math.PI)/n);
-	      tmp = ComplexNumber.cExp(z1);
-	      z1 = new ComplexNumber(1.0, 0.0);
-	      for(int i=0;i<m;++i){
-		z3 = ComplexNumber.cSum(x[i],x[i+m]);
-		sum[i] = ComplexNumber.cDiv(z3,cTwo);
-		
-		z3 = ComplexNumber.cDif(x[i],x[i+m]);
-		z4 = ComplexNumber.cMult(z3,z1);
-		diff[i] = ComplexNumber.cDiv(z4,cTwo);
-		
-		z2 = ComplexNumber.cMult(z1,tmp);
-		z1 = new ComplexNumber(z2);
-	      }
-	      even = recursiveInverseFFT(sum);
-	      odd = recursiveInverseFFT(diff);
-	      
-	      for(int i=0;i<m;++i){
-		result[i*2] = new ComplexNumber(even[i]);
-		result[i*2 + 1] = new ComplexNumber(odd[i]);
-	      }
-	    }
-	    return result;
-	  }
-	    
-	  /**
-	   * Takes a TwoDArray, applies the 2D inverse FFT to the input by applying
-	   * the 1D inverse FFT to each column and then each row in turn.
-	   *
-	   * @param input TwoDArray containing the input image data.
-	   * @return TwoDArray containing the new image data.
-	   */
-	  public TwoDArray transform(TwoDArray input){
-		progress = 0;
-	    TwoDArray intermediate = new TwoDArray(input.width, input.height);
-	    TwoDArray output = new TwoDArray(input.width, input.height);
-	     
-	    for(int i=0;i<input.size;++i){
-		    progress++;
-		intermediate.putColumn(i, recursiveInverseFFT(input.getColumn(i)));
-	    }
+	// compute the FFT of x[], assuming its length n is a power of 2
+    public static Complex[] fft(Complex[] x) {
+        int n = x.length;
 
-	    for(int i=0;i<intermediate.size;++i){
-		    progress++;
-		output.putRow(i, recursiveInverseFFT(intermediate.getRow(i)));
-	    }
-	    return output;
-	  }
-	  
-	  public int[] getPixels(TwoDArray output) {
-	  	  double [] outputArrayDoubles = 
-		    new double [output.width*output.height];
-		  outputArrayDoubles = output.getReal();
-		  //outputArrayDoubles = fft.output.getMagnitude();
-		  int[] outputArray = new int [outputArrayDoubles.length];
-		  //outputArray = ImageMods.toPixels(outputArrayDoubles);
-		  outputArray = 
-		    toPixels(allPositive(outputArrayDoubles));
+        // base case
+        if (n == 1) return new Complex[] { x[0] };
 
-		  return outputArray;
-	  }
-	  /**
-	   * Method to slide and scale an array of doubles so that the minimum
-	   * values is 0 (all positive).
-	   *
-	   * @param values An array of doubles.
-	   * @return An array of positive doubles.
-	   */
-	  private double [] allPositive(double [] values){
-	    double [] output = new double [values.length];
-	    double m = minValue(values);
-	    if(m<0){
-	      for(int i=0;i<values.length;++i){
-		output[i] = values[i]-m;
-	      }
-	      return output;
-	    }
-	    else return values;
-	  }  
-	  
-	  /** 
-	   * A method to convert an array of grey values to an array of pixel values.
-	   *
-	   * @param values An array of grey values (all positive).
-	   * @return An array of pixel values.
-	   */
-	  private int [] toPixels(double [] values){
-	    int grey;
-//	    double [] greys = new double [values.length];
-	    int [] pixels = new int [values.length];
-//	    for(int i=0;i<greys.length;++i){
-//	      greys[i] = values[i];
-//	    }
-//	    double max = maxValue(greys);
-	    double max = maxValue(values);
-	    double scale;
-	    if (max == 0) scale = 1.0;
-	    else scale = 255.0/max;
-	    
-	    //System.out.println(max);
-//	    for(int i=0;i<greys.length;++i){
-	    for(int i=0;i<values.length;++i){        
-//	      greys[i] = greys[i] * 255/max;
-//	      grey = (int) Math.round(greys[i]);
-	      grey = (int) Math.round(values[i]*scale);
-	      pixels[i] = new Color(grey,grey,grey).getRGB(); //recombine greys
-	    }
-	    return pixels;
-	  }  
-	    /**
-	   * Method to find the maximum value from an array of doubles.
-	   *
-	   * @param values an array of doubles.
-	   * @return The maximum value.
-	   */
-	  private double maxValue(double [] values){
-	    double max = values[0];
-	    for(int i=1;i<values.length;++i){
-	      if(values[i]>max) max=values[i];
-	    }
-	    return max;
-	  }
-	  
-	  /**
-	   * Method to find the minimum value from an array of doubles.
-	   *
-	   * @param values an array of doubles.
-	   * @return The minimum value.
-	   */
-	  private double minValue(double [] values){
-	    double min = values[0];
-	    for(int i=1;i<values.length;++i){
-	      if(values[i]<min) min=values[i];
-	    }
-	    return min;
-	  }  
-	  
-	  public int getProgress() { return progress; }
-	
+        // radix 2 Cooley-Tukey FFT
+        if (n % 2 != 0) {
+            throw new IllegalArgumentException("n is not a power of 2");
+        }
+
+        // compute FFT of even terms
+        Complex[] even = new Complex[n/2];
+        for (int k = 0; k < n/2; k++) {
+            even[k] = x[2*k];
+        }
+        Complex[] evenFFT = fft(even);
+
+        // compute FFT of odd terms
+        Complex[] odd  = even;  // reuse the array (to avoid n log n space)
+        for (int k = 0; k < n/2; k++) {
+            odd[k] = x[2*k + 1];
+        }
+        Complex[] oddFFT = fft(odd);
+
+        // combine
+        Complex[] y = new Complex[n];
+        for (int k = 0; k < n/2; k++) {
+            double kth = -2 * k * Math.PI / n;
+            Complex wk = new Complex((float)Math.cos(kth), (float)Math.sin(kth));
+            y[k]       = evenFFT[k].plus (wk.times(oddFFT[k]));
+            y[k + n/2] = evenFFT[k].minus(wk.times(oddFFT[k]));
+        }
+        return y;
+    }
+
+
+    // compute the inverse FFT of x[], assuming its length n is a power of 2
+    public static Complex[] ifft(Complex[] x) {
+        int n = x.length;
+        Complex[] y = new Complex[n];
+
+        // take conjugate
+        for (int i = 0; i < n; i++) {
+            y[i] = x[i].conjugate();
+        }
+
+        // compute forward FFT
+        y = fft(y);
+
+        // take conjugate again
+        for (int i = 0; i < n; i++) {
+            y[i] = y[i].conjugate();
+        }
+
+        // divide by n
+        for (int i = 0; i < n; i++) {
+            y[i] = y[i].scale((float) (1.0 / n));
+        }
+
+        return y;
+
+    }
+
+    // compute the circular convolution of x and y
+    public static Complex[] cconvolve(Complex[] x, Complex[] y) {
+
+        // should probably pad x and y with 0s so that they have same length
+        // and are powers of 2
+        if (x.length != y.length) {
+            throw new IllegalArgumentException("Dimensions don't agree");
+        }
+
+        int n = x.length;
+
+        // compute FFT of each sequence
+        Complex[] a = fft(x);
+        Complex[] b = fft(y);
+
+        // point-wise multiply
+        Complex[] c = new Complex[n];
+        for (int i = 0; i < n; i++) {
+            c[i] = a[i].times(b[i]);
+        }
+
+        // compute inverse FFT
+        return ifft(c);
+    }
+
+
+    // compute the linear convolution of x and y
+    public static Complex[] convolve(Complex[] x, Complex[] y) {
+        Complex ZERO = new Complex(0, 0);
+
+        Complex[] a = new Complex[2*x.length];
+        for (int i = 0;        i <   x.length; i++) a[i] = x[i];
+        for (int i = x.length; i < 2*x.length; i++) a[i] = ZERO;
+
+        Complex[] b = new Complex[2*y.length];
+        for (int i = 0;        i <   y.length; i++) b[i] = y[i];
+        for (int i = y.length; i < 2*y.length; i++) b[i] = ZERO;
+
+        return cconvolve(a, b);
+    }
+
+    // compute the DFT of x[] via brute force (n^2 time)
+    public static Complex[] dft(Complex[] x) {
+        int n = x.length;
+        Complex ZERO = new Complex(0, 0);
+        Complex[] y = new Complex[n];
+        for (int k = 0; k < n; k++) {
+            y[k] = ZERO;
+            for (int j = 0; j < n; j++) {
+                int power = (k * j) % n;
+                double kth = -2 * power *  Math.PI / n;
+                Complex wkj = new Complex((float)Math.cos(kth), (float)Math.sin(kth));
+                y[k] = y[k].plus(x[j].times(wkj));
+            }
+        }
+        return y;
+    }
+
+    // display an array of Complex numbers to standard output
+    public static void show(Complex[] x, String title) {
+        System.out.println(title);
+        System.out.println("-------------------");
+        for (int i = 0; i < x.length; i++) {
+        	System.out.println(x[i]);
+        }
+        System.out.println();
+    }
 
 }

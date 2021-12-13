@@ -22,6 +22,7 @@ public class FileSelectScene extends Scene {
 	public static File selectedFile;
 	private final static DrawString GUI_SELECTED_FILE = new DrawString("Selected File:");
 	public static DrawString soundInfo = new DrawString("FFT Info:\nwating for process");
+	private static String consoleString = "FFT Info:\nwating for process";
 
 	public FileSelectScene(int width, int height, PApplet parent) {
 		super(width, height, parent);
@@ -72,11 +73,22 @@ public class FileSelectScene extends Scene {
 	}
 	
 	public static void clearFFTInfo() {
-		soundInfo.update("FFT Info:\nwating for process");
+		consoleString = "FFT Info:";
+		soundInfo.update(consoleString);
 	}
 	
 	public void setProcessButtonEnabled(boolean enabled) {
 		buttons[4].inactive = !enabled;
+	}
+	
+	public static void addFFTInfoLine(String line) {
+		if(line.length() > 18) line = line.substring(0, 15) + "...";
+		consoleString += "\n" + line;
+		soundInfo.update(consoleString);
+	}
+	
+	public static void showFFTProgress(long progress, long total) {
+		soundInfo.update(consoleString + "\n(" + progress + "/" + total + ")");
 	}
 
 }
