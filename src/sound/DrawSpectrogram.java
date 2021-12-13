@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 
 import base.SpectrogramDrawing;
+import ddf.minim.AudioInput;
+import ddf.minim.AudioRecorder;
 import ddf.minim.Minim;
 import ddf.minim.UGen;
 import ddf.minim.analysis.FourierTransform;
@@ -22,6 +24,7 @@ public class DrawSpectrogram {
 	//Calculated in FFT
 	private static int timeInterval, sampleRate;
 	private SoundEditScene parentScene;
+	public static boolean filterAmplitude = true;
 
 	public DrawSpectrogram(SoundEditScene parent) throws IOException {
 		this.image = draw(FileSelectScene.selectedFile);
@@ -38,6 +41,19 @@ public class DrawSpectrogram {
 	}
 	
 	public void log(String content) {
+		int[] c = {0, 0, 0};
+		parentScene.console.color = c;
+		this.parentScene.console.update(content);
+	}
+	
+	public void log(String content, boolean red) {
+		if(red) {
+			int[] c = {255, 0, 0};
+			parentScene.console.color = c;
+		}else {
+			int[] c = {0, 0, 0};
+			parentScene.console.color = c;
+		}
 		this.parentScene.console.update(content);
 	}
 	
@@ -49,10 +65,9 @@ public class DrawSpectrogram {
 			float[] buf = new float[1];
 			for(int y=0; y<image.height; y++) {
 				Color color = (new Color(image.get(x, y)));
-				player.setBand(PApplet.min(y, 511), (float)Math.sqrt(color.getRed()));
+				player.setBand(PApplet.min(y, 511), (float)color.getRed());
 				buf[0] = color.getRed();
 			}
-			player.tick(buf);
 			//Shut this thread down when playing is stopped
 			if(!parentScene.isPlaying) {
 				endSound(out);
@@ -68,6 +83,37 @@ public class DrawSpectrogram {
 		}
 		endSound(out);
 		parentScene.posX = 0;
+	}
+	
+	AudioInput in;
+	AudioRecorder recorder;
+	
+	public void saveWav(String path) throws Exception {
+		ddf.minim.AudioOutput out = SpectrogramDrawing.minim.getLineOut(Minim.MONO, 2048);
+		in = SpectrogramDrawing.minim.getLineIn(Minim.MONO, 2048);
+		recorder = SpectrogramDrawing.minim.createRecorder(in, path);
+		player.patch(out);
+		
+		recorder.beginRecord();
+		for(int x=(int)PApplet.map(parentScene.posX, 0.0f, 1.0f, 0, image.width); x<image.width; x++) {
+			float[] buf = new float[1];
+			for(int y=0; y<image.height; y++) {
+				Color color = (new Color(image.get(x, y)));
+				player.setBand(PApplet.min(y, 511), (float)color.getRed());
+				buf[0] = color.getRed();
+			}
+			parentScene.posX = (float)x / (float)image.width;
+			
+			try {
+				Thread.sleep(timeInterval);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		endSound(out);
+		parentScene.posX = 0;
+		recorder.endRecord();
+		recorder.save();
 	}
 	
 	public void endSound(ddf.minim.AudioOutput out) {
@@ -150,7 +196,7 @@ public class DrawSpectrogram {
          if (outIndex % windowSize == 0) {
            fft.forward(silence);
            for(int i = 0; i < amplitudes.length; ++i) {
-             fft.setBand(i, amplitudes[i]*0.4f);
+             fft.setBand(i, amplitudes[i]*0.6f);
            }
            
            fft.inverse(inverse);
@@ -231,7 +277,11 @@ public class DrawSpectrogram {
             java.util.Arrays.fill(inputImag, 0.0);
             double[] WS_array = math.FFT.fft(java.util.Arrays.copyOfRange(rawData, i * windowStep, i * windowStep+WS), inputImag, true);
             for (int j = 0; j < nY; j++){
-                amp_square = (WS_array[2*j] * WS_array[2*j]) + (WS_array[2*j+1] * WS_array[2*j+1]);
+            	if(filterAmplitude) {
+                	amp_square = (WS_array[2*j] * WS_array[2*j]) + (WS_array[2*j+1] * WS_array[2*j+1]);
+                }else {
+                	amp_square = WS_array[2*j] + WS_array[2*j+1];
+                }
                 /*if (amp_square == 0.0){
                     plotData[i][j] = amp_square;
                 }else {
@@ -320,6 +370,11 @@ public class DrawSpectrogram {
 	
 	public PImage getSourceImage() {
 		return sourceImage.copy();
+	}
+	
+	public void setSourceImage(PImage img) {
+		sourceImage = img;
+		image = sourceImage.copy();
 	}
 	
 	/*public static PImage analyzeAllSamples(File selectedFile) {

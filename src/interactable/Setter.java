@@ -20,6 +20,10 @@ public abstract class Setter extends Interactable {
 		this.rx = x;
 	}
 	
+	public void reset() {
+		value = 0.0f;
+	}
+	
 	@Override
 	public void display(PGraphics g) {
 		g.image(this.bkg, this.rx, this.y + 4, pixelWidth + 16, 16);

@@ -17,7 +17,6 @@ public class GaussianSetter extends Setter {
 		//Use Processing's Gausisan Blur instead of a homebrew one for better results
 		SpectrogramDrawing.filter(value, spectrogram, SpectrogramDrawing.Filters.GAUSSIAN);
 		spectrogram.log("processing image...");
-		
 	}
 
 }

@@ -1,7 +1,7 @@
 package base;
 
 /*
- * @version 1.0.0
+ * @version 1.0.4
  * @author Shuangyuan Cao
  * @since 0.0.1
  * 
@@ -17,6 +17,14 @@ package base;
  * https://stackoverflow.com/questions/80476/how-can-i-concatenate-two-arrays-in-java
  * 4. Jin Lim's code for streaming byte arrays as audio
  * https://stackoverflow.com/questions/14945217/playing-sound-from-a-byte-array
+ * 
+ * Libraries:
+ * 1. Processing 3.5.4 for display
+ * https://processing.org/
+ * 2. Minim Audio for audio processing
+ * http://code.compartmental.net/minim/index.html
+ * 3. JH Labs for image filtering
+ * http://www.jhlabs.com/index.html
  */
 
 import java.awt.Dimension;
@@ -24,6 +32,10 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.image.BufferedImage;
+
+import com.jhlabs.image.BoxBlurFilter;
+import com.jhlabs.image.MotionBlurOp;
 
 import ddf.minim.Minim;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
@@ -256,7 +268,7 @@ public class SpectrogramDrawing extends PApplet {
 	public static int type;
 	private static boolean filtering = false;
 	public static enum Filters {
-			GAUSSIAN
+			GAUSSIAN, MOTION, RADIAL
 	};
 	
 	public static void filter(float value, DrawSpectrogram spectrogram, Filters type) {
@@ -267,6 +279,10 @@ public class SpectrogramDrawing extends PApplet {
 		filtering = true;
 		if(type == Filters.GAUSSIAN) {
 			main.thread("gaussianBlurInBackgroound");
+		}else if(type == Filters.MOTION) {
+			main.thread("motionBlurInBackgroound");
+		}else if(type == Filters.RADIAL) {
+			main.thread("radialBlurInBackgroound");
 		}
 	}
 	
@@ -276,6 +292,35 @@ public class SpectrogramDrawing extends PApplet {
 		buf.filter(PImage.BLUR, 3.0f * filterValue);
 		filterSpectrogram.setImage(buf);
 		filterSpectrogram.log("Applied Gaussian Blur level " + l + " to image.");
+		filtering = false;
+	}
+	
+	public void motionBlurInBackgroound() {
+		PImage src = filterSpectrogram.getSourceImage();
+		//JH Labs's Box Filter provides a fast process similar to motion blur on horizontal/vertical
+		float mag = src.width * 0.02f * filterValue;
+		BoxBlurFilter filter = new BoxBlurFilter(mag, 0, 1);
+		BufferedImage buf = new BufferedImage(src.width, src.height, BufferedImage.TYPE_INT_RGB);
+		buf = filter.filter((BufferedImage)src.getNative(), buf);
+		filterSpectrogram.setImage(new PImage(buf));
+		filterSpectrogram.log("Applied Motion Blur level " + (int)mag + " to image.");
+		filtering = false;
+	}
+	
+	public void radialBlurInBackgroound() {
+		//This filter sometimes has unexpected results, so we want to ignore changes with this filter that are too small.
+		if(filterValue > 0.001f) {
+			PImage src = filterSpectrogram.getSourceImage();
+			float mag = src.width * 0.0002f * filterValue;
+			MotionBlurOp filter = new MotionBlurOp(3, 0, mag, mag);
+			BufferedImage buf = new BufferedImage(src.width, src.height, BufferedImage.TYPE_INT_RGB);
+			buf = filter.filter((BufferedImage)src.getNative(), buf);
+			filterSpectrogram.setImage(new PImage(buf));
+			filterSpectrogram.log("Applied Radial Blur degree " + mag + " to image.");
+		}else {
+			filterSpectrogram.setImage(filterSpectrogram.getSourceImage());
+			filterSpectrogram.log("Applied Radial Blur degree 0 to image.");
+		}
 		filtering = false;
 	}
 
