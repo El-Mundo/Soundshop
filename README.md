@@ -26,8 +26,8 @@ Known issues:
 1. Audio quality will be extremely poor when converting back an image to audio and the pitch will be shifted due to the normalizing algorithm.
 2. Can only load .wav files that are correctly formatted.
 3. When loading big files, the music will sound strange while reaching MIDI sequencer's end.
-4. Relies on a recorder to export wav.
-5. The radial filter may generate strange results.
+4. The radial filter may generate unexpected results.
+5. Buttons can still be triggered when pulling a bar, which may cause an accidental exit.
 
 Log:
 
