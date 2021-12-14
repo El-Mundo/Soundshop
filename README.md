@@ -18,17 +18,15 @@ Tips:
 1. The playback position can be changed by clicking on the spectrogram.
 2. Please note that changing a filter will result in the processed image to be staged.
 3. There are two settings on the load file scene. The "smooth" decides the anti-aliasing level of images, and the "filter" decides whether the loaded sound samples should be squared to remove noises.
-4. Please use the radial filter carefully as it may generate very screeched sounds.
 
 This program loads both audio and image files as pixel arrays, draw them as grey-scale images, and allows the user to apply some image filters (typically blurring) to audio.
 For more specified information about the codes, please refer to the top area of the main class (src/base/SpectrogramDrawing.java).
 
 Known issues:
 1. Audio quality will be extremely poor when converting back an image to audio and the pitch will be shifted due to the normalizing algorithm.
-2. Can only load .wav files that are correctly formatted.
+2. Can only load .wav files with standard PCM format.
 3. When loading big files, the music will sound strange while reaching MIDI sequencer's end.
-4. The radial filter may generate unexpected results.
-5. Buttons can still be triggered when pulling a bar, which may cause an accidental exit.
+4. Buttons can still be triggered when pulling a bar, which may cause an accidental exit.
 
 Log:
 
@@ -57,3 +55,5 @@ Update v.1.0.2(13/12/2021): Added motion blur and radial blur based on JH Labs.
 Update v.1.0.4(13/12/2021): Added filter switch to determine whether the samples should be squared.
 
 Update v.1.0.5(13/12/2021): Fixed a BUG that the program cannot exit properly when recording wav stream.
+
+Update v.1.0.6(13/12/2021): Fixed the radial blur filter.
