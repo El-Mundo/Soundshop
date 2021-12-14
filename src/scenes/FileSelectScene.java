@@ -10,6 +10,7 @@ import interactable.AntialiasingButtonGroup;
 import interactable.Button;
 import interactable.ButtonGroup;
 import interactable.FileSelectionButton;
+import interactable.NetworkButton;
 import interactable.ProcessButton;
 import processing.core.PApplet;
 import resources.GraphicResouces;
@@ -26,6 +27,7 @@ public class FileSelectScene extends Scene {
 	private final static DrawString GUI_SELECTED_FILE = new DrawString("Selected File:");
 	public static DrawString soundInfo = new DrawString("FFT Info:\nwating for process");
 	private static String consoleString = "FFT Info:\nwating for process";
+	private static DrawString networkString = new DrawString("--Experimental Function--");
 
 	public FileSelectScene(int width, int height, PApplet parent) {
 		super(width, height, parent);
@@ -33,7 +35,7 @@ public class FileSelectScene extends Scene {
 		smoothSetting = new AntialiasingButtonGroup();
 		amplitudeFilterSwitch = new AmplitudeFilterButtonGroup();
 		
-		buttons = new Button[7];
+		buttons = new Button[8];
 		buttons[0] = new ButtonGroup.GroupedButton(GraphicResouces.SMOOTH_OFF, 128, 8, 2, smoothSetting);
 		buttons[1] = new ButtonGroup.GroupedButton(GraphicResouces.SMOOTH_2X, 192, 8, 2, smoothSetting);
 		buttons[2] = new ButtonGroup.GroupedButton(GraphicResouces.SMOOTH_3X, 240, 8, 2, smoothSetting);
@@ -41,6 +43,7 @@ public class FileSelectScene extends Scene {
 		buttons[4] = new ProcessButton(512, 424, 2);
 		buttons[5] = new ButtonGroup.GroupedButton(GraphicResouces.SMOOTH_OFF, 580, 8, 2, amplitudeFilterSwitch);
 		buttons[6] = new ButtonGroup.GroupedButton(GraphicResouces.SWITCH_ON, 660, 8, 2, amplitudeFilterSwitch);
+		buttons[7] = new NetworkButton(450, 200, 2);
 	}
 
 	@Override
@@ -73,6 +76,7 @@ public class FileSelectScene extends Scene {
 		GUI_SELECTED_FILE.draw(this, 8, 352, 16);
 		workingPath.draw(this, 8, 384, 16);
 		filterSwitch.draw(this, 460, 11, 16);
+		networkString.draw(this, 312, 128, 16);
 		
 		for(Button b : buttons) {
 			b.display(this);

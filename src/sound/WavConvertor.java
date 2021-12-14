@@ -24,7 +24,7 @@ public class WavConvertor {
         Path path = Paths.get(selectedFile.getAbsolutePath());
         this.entireFileData = Files.readAllBytes(path);
 
-        if (print_info){
+        /*if (print_info){
 	        //extract format
 	        String format = new String(Arrays.copyOfRange(entireFileData, 8, 12), "UTF-8");
 	
@@ -44,14 +44,14 @@ public class WavConvertor {
 	        //extract Bit Per Second (BPS/Bit depth)
 	        int BPS = entireFileData[34];
 	
-	        System.out.println("---------------------------------------------------");
+	        /*System.out.println("---------------------------------------------------");
 	        System.out.println("File path:          " + selectedFile);
 	        System.out.println("File format:        " + format);
 	        System.out.println("Number of channels: " + noOfChannels_str);
 	        System.out.println("Sampling rate:      " + SR);
 	        System.out.println("Bit depth:          " + BPS);
 	        System.out.println("---------------------------------------------------");
-        }
+        }*/
     }
 
     public double[] getByteArray() {

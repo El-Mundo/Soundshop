@@ -23,21 +23,21 @@ import sound.DrawSpectrogram;
 
 public class SoundEditScene extends Scene {
 	
-	private DrawSpectrogram spectrogram;
-	private Interactable[] interactables;
+	protected DrawSpectrogram spectrogram;
+	protected Interactable[] interactables;
 	public DrawString console;
 	
-	private Setter gaussianSetter, motionSetter, radialSetter;
+	protected Setter gaussianSetter, motionSetter, radialSetter;
 	private SavePngButton savePngButton;
 	private SaveWavButton saveWavButton;
-	private FilterButtonGroup filterButtonGroup;
+	protected FilterButtonGroup filterButtonGroup;
 	public int state;
 	
 	public float posX = 0.0f;
 	
 	public boolean isPlaying;
 	
-	private void initInteractables() {
+	public void initInteractables() {
 		console = new DrawString("Info will be printed here.");
 		
 		interactables = new Interactable[6];
@@ -55,7 +55,6 @@ public class SoundEditScene extends Scene {
 		interactables[3] = new ButtonGroup.GroupedButton(GraphicResouces.FILTER_MOTION, 260, 448, 2, filterButtonGroup);
 		interactables[4] = new ButtonGroup.GroupedButton(GraphicResouces.FILTER_RADIAL, 400, 448, 2, filterButtonGroup);
 		interactables[5] = new ButtonGroup.GroupedButton(GraphicResouces.SAVE_BUTTON, 540, 448, 2, filterButtonGroup);
-		
 		
 		isPlaying = false;
 		state = 0;
@@ -75,9 +74,11 @@ public class SoundEditScene extends Scene {
 	
 	public SoundEditScene(PApplet parent, PImage image) throws IOException {
 		super(720, 480, parent);
+		//Apply default settings if a png is loaded (sample rate 44100)
 		spectrogram = new DrawSpectrogram(image, this);
 		initInteractables();
 		SpectrogramDrawing.main.transitToSoundEditting(this);
+		spectrogram.setDefaultValues();
 	}
 	
 	public SoundEditScene(PApplet parent) throws IOException {

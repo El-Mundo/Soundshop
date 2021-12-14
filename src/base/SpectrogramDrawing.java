@@ -41,12 +41,15 @@ import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.MotionBlurOp;
 
 import ddf.minim.Minim;
+import network.Room;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
 import processing.core.PImage;
 import resources.AudioResources;
 import resources.GraphicResouces;
+import scenes.ClientScene;
 import scenes.FileSelectScene;
+import scenes.HostScene;
 import scenes.SoundEditScene;
 import sound.DrawSpectrogram;
 
@@ -259,10 +262,30 @@ public class SpectrogramDrawing extends PApplet {
 	public void loadSceneInBackgroound() {
 		try {
 			fileSelectScene.setProcessButtonEnabled(false);
-			if(FileSelectScene.pathString.toLowerCase().endsWith(".wav"))
-				new SoundEditScene(this);
-			else
-				new SoundEditScene(this, this.loadImage(FileSelectScene.pathString));
+			switch (Room.socketState) {
+			case 1:
+				//Host
+				if(FileSelectScene.pathString.toLowerCase().endsWith(".wav"))
+					new HostScene(this);
+				else
+					new HostScene(this, this.loadImage(FileSelectScene.pathString));
+				break;
+			case 2:
+				//Client
+				if(FileSelectScene.pathString.toLowerCase().endsWith(".wav"))
+					new ClientScene(this);
+				else
+					new ClientScene(this, this.loadImage(FileSelectScene.pathString));
+				break;
+
+			default:
+				if(FileSelectScene.pathString.toLowerCase().endsWith(".wav"))
+					new SoundEditScene(this);
+				else
+					new SoundEditScene(this, this.loadImage(FileSelectScene.pathString));
+				break;
+			}
+				
 			fileSelectScene.setProcessButtonEnabled(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -334,7 +357,7 @@ public class SpectrogramDrawing extends PApplet {
 			//This filter makes spectrograms appear dark, so manually adjust the contrast.
 			ContrastFilter colorFilter = new ContrastFilter();
 			colorFilter.setContrast(1.0f+filterValue*0.7f);
-			colorFilter.setBrightness(2.0f);
+			colorFilter.setBrightness(FileSelectScene.selectedFile.getName().endsWith(".png")?1.2f:(2.0f+filterValue));
 			colorFilter.filter(buf, buf);
 			filterSpectrogram.setImage(new PImage(buf));
 			filterSpectrogram.log("Applied Radial Blur degree " + mag + " to image.");

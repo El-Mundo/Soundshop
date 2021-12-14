@@ -41,18 +41,15 @@ public class DrawSpectrogram {
 	}
 	
 	public void log(String content) {
-		int[] c = {0, 0, 0};
-		parentScene.console.color = c;
+		parentScene.console.setColor(0, 0, 0);
 		this.parentScene.console.update(content);
 	}
 	
 	public void log(String content, boolean red) {
 		if(red) {
-			int[] c = {255, 0, 0};
-			parentScene.console.color = c;
+			parentScene.console.setColor(255, 0, 0);
 		}else {
-			int[] c = {0, 0, 0};
-			parentScene.console.color = c;
+			parentScene.console.setColor(0, 0, 0);
 		}
 		this.parentScene.console.update(content);
 	}
@@ -119,6 +116,11 @@ public class DrawSpectrogram {
 		parentScene.posX = 0;
 		recorder.endRecord();
 		recorder.save();
+	}
+	
+	public void setDefaultValues() {
+		timeInterval = 16;
+		sampleRate = 44100;
 	}
 	
 	public void endSound(ddf.minim.AudioOutput out) {
@@ -242,7 +244,7 @@ public class DrawSpectrogram {
         //calculate FFT parameters
         double SR = audioTest.getSR();
         double time_resolution = WS / SR;
-        double frequency_resolution = SR / WS;
+        //double frequency_resolution = SR / WS;
         double highest_detectable_frequency = SR / 2.0;
         double lowest_detectable_frequency = 5.0 * SR/WS;
         sampleRate = (int)SR;
@@ -250,10 +252,10 @@ public class DrawSpectrogram {
         //Use 480 instead of 1000 for better performance
         timeInterval = (int)(time_resolution * 480);
 
-        System.out.println("time_resolution:              " + timeInterval + " ms");
+        /*System.out.println("time_resolution:              " + timeInterval + " ms");
         System.out.println("frequency_resolution:         " + frequency_resolution + " Hz");
         System.out.println("highest_detectable_frequency: " + highest_detectable_frequency + " Hz");
-        System.out.println("lowest_detectable_frequency:  " + lowest_detectable_frequency + " Hz");
+        System.out.println("lowest_detectable_frequency:  " + lowest_detectable_frequency + " Hz");*/
         
         FileSelectScene.addFFTInfoLine("\nspectro:1024");
         FileSelectScene.addFFTInfoLine("res:"+timeInterval+"ms");
