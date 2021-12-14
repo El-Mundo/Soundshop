@@ -1,7 +1,7 @@
 package base;
 
 /*
- * @version 1.0.5
+ * @version 1.0.6
  * @author Shuangyuan Cao
  * @since 0.0.1
  * 
