@@ -22,11 +22,59 @@ Tips:
 This program loads both audio and image files as pixel arrays, draw them as grey-scale images, and allows the user to apply some image filters (typically blurring) to audio.
 For more specified information about the codes, please refer to the top area of the main class (src/base/SpectrogramDrawing.java).
 
+
+
+v.2.0 New Experimental Function (LAN Network Bokeh):
+
+To use this function, please click the "LAN Bokeh" button on the file selection page.
+A Java Window will pop out asking you to input an address and a port.
+
+![image](https://github.com/El-Mundo/Soundshop/blob/master/setlan.png)
+
+There are two modes, host and client.
+A host is a must for creating a local network room, no clients can connect to the room without a host.
+Clients can connect to the room the host created with the IP address and port number provided by the host.
+
+To create a room as the host, input the number of clients that will connect to your room in the "address/client number" area.
+As for port, you can input any integer as long as its length is between 4-5 digits (and has not been occupied by other progresses).
+Please be sure about the number of clients, as you cannot successfully create your room before all expected clients have connected to the room.
+Please also note that if there is no new client connecting to your room for 2 minutes before you get all expected clients in your room, the room will be timed out and cancelled.
+If your room has been created sucessfully, your window will show a string like "Server started".
+
+To join a room as a client, please first ensure that your device is in the same Wi-Fi with the host.
+Then please input the room host's IP address in the "address/client number" area.
+Please refer to the string shown on the host's device, it will show a string like this: "Waiting for client #0 on 192.168.1.1:0000".
+The "192.168.1.1" in the sample string will be the IP address and the "0000" is the port number.
+Input these information and click the "run as client" button.
+If you have connected successfully, the window will show a string like "Just connected to /192.168.1.1:0000".
+
+![image](https://github.com/El-Mundo/Soundshop/blob/master/hostandclient.png)
+
+After you join or create a room, you can click the process button just as the normal mode,
+the program will automatically check your connection state and open the editor.
+The client can blur their sound with image filters, while the host cannot.
+The host can play all the sound clips of the room's clients, but the clients cannot play back them without the host's signal.
+Also, the wav and png export is forbidden in the LAN room to avoid synchronization issues.
+
+This design is strongly inspired by how cameras' bokeh works.
+The host is considered the camera, so the his/her play-back button is the shutter that controls all the contents.
+His/her audio clip is the content that is in focus, so it cannot be blurred, similar to bokeh.
+On the other hand, the audio clips of the clients are out of focus and up to be blurred.
+
+This function might also be used for producing computer-based installations.
+For example, one can put eight computers in the corners of a room and connect them to the same Wi-Fi.
+After setting up the computers, s/he can exhibit the sound processed with our editor by clicking the play button of the host computer.
+This helps installation designers to easily create surrounding sound effects and blur them.
+
+
+
 Known issues:
 1. Audio quality will be extremely poor when converting back an image to audio and the pitch will be shifted due to the normalizing algorithm.
 2. Can only load .wav files with standard PCM format.
 3. When loading big files, the music will sound strange while reaching MIDI sequencer's end.
 4. Buttons can still be triggered when pulling a bar, which may cause an accidental exit.
+
+
 
 Log:
 
@@ -57,3 +105,5 @@ Update v.1.0.4(13/12/2021): Added filter switch to determine whether the samples
 Update v.1.0.5(13/12/2021): Fixed a BUG that the program cannot exit properly when recording wav stream.
 
 Update v.1.0.6(13/12/2021): Fixed the radial blur filter.
+
+Update v.2.0.0(14/12/2021): Added local network connection.
