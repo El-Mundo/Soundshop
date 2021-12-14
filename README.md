@@ -3,7 +3,10 @@ This project attempts at applying blurring filters to audio files based on their
 
 All used resources are packed as JAVA byte arrays to avoid pre-loading troubles.
 
+-----------------------------------------------------
 Setup:
+-----------------------------------------------------
+
 1. Check if the device has Java Virtual Machine (JVM) installed.
 2. Only the .jar is needed for setting up, which can be found in the release section of this page.
 3. Open the .jar file with JVM. If the software still cannot start, please try JVM with a version higher than 1.8.0.
@@ -12,9 +15,17 @@ Setup:
 6. The save section allows saving the results as png or wav files. The saved results will be on the directory of the loaded file.
 The wav saving requires to start a recorder and play the audio once, and all input will be ignored during the record.
 
+7. The "LAN bokeh" button will lead to a pop-out window asking to set up network for entering a multi-device synchronizing mode.
+To use this mode, please refer to the "v.2.0 New Experimental Function" section of this Readme file.
+In this mode, only a host can play or stop the audio, while only the clients can edit the audio.
+Please also note that, after entering this mode, the user can close the pop-out window to go back to the normal mode.
+
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/guide.png)
 
+-----------------------------------------------------
 Tips:
+-----------------------------------------------------
+
 1. The playback position can be changed by clicking on the spectrogram.
 2. Please note that changing a filter will result in the processed image to be staged.
 3. There are two settings on the load file scene. The "smooth" decides the anti-aliasing level of images, and the "filter" decides whether the loaded sound samples should be squared to remove noises.
@@ -23,8 +34,9 @@ This program loads both audio and image files as pixel arrays, draw them as grey
 For more specified information about the codes, please refer to the top area of the main class (src/base/SpectrogramDrawing.java).
 
 
-
+-----------------------------------------------------
 v.2.0 New Experimental Function (LAN Network Bokeh):
+-----------------------------------------------------
 
 To use this function, please click the "LAN Bokeh" button on the file selection page.
 A Java Window will pop out asking you to input an address and a port.
@@ -48,6 +60,8 @@ The "192.168.1.1" in the sample string will be the IP address and the "0000" is 
 Input these information and click the "run as client" button.
 If you have connected successfully, the window will show a string like "Just connected to /192.168.1.1:0000".
 
+To cancel a room and go back to normal mode, just close the LAN window.
+
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/hostandclient.png)
 
 After you join or create a room, you can click the process button just as the normal mode,
@@ -61,22 +75,25 @@ The host is considered the camera, so the his/her play-back button is the shutte
 His/her audio clip is the content that is in focus, so it cannot be blurred, similar to bokeh.
 On the other hand, the audio clips of the clients are out of focus and up to be blurred.
 
-This function might also be used for producing computer-based installations.
+This function might also be used for producing computer-based sound installations.
 For example, one can put eight computers in the corners of a room and connect them to the same Wi-Fi.
 After setting up the computers, s/he can exhibit the sound processed with our editor by clicking the play button of the host computer.
 This helps installation designers to easily create surrounding sound effects and blur them.
 
 
-
+-----------------------------------------------------
 Known issues:
+-----------------------------------------------------
+
 1. Audio quality will be extremely poor when converting back an image to audio and the pitch will be shifted due to the normalizing algorithm.
 2. Can only load .wav files with standard PCM format.
 3. When loading big files, the music will sound strange while reaching MIDI sequencer's end.
 4. Buttons can still be triggered when pulling a bar, which may cause an accidental exit.
 
 
-
+-----------------------------------------------------
 Log:
+-----------------------------------------------------
 
 Update v.0.0.1(22/11/2021): Initial version, a console program that down-samples a .wav file.
 
