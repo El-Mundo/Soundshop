@@ -37,6 +37,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 import com.jhlabs.image.BoxBlurFilter;
+import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.MotionBlurOp;
 
 import ddf.minim.Minim;
@@ -326,10 +327,15 @@ public class SpectrogramDrawing extends PApplet {
 		//This filter sometimes has unexpected results, so we want to ignore changes with this filter that are too small.
 		if(filterValue > 0.001f) {
 			PImage src = filterSpectrogram.getSourceImage();
-			float mag = src.width * 0.0002f * filterValue;
-			MotionBlurOp filter = new MotionBlurOp(3, 0, mag, mag);
+			float mag = 0.1f * filterValue;
+			MotionBlurOp filter = new MotionBlurOp(mag, 0, mag*0.5f, mag);
 			BufferedImage buf = new BufferedImage(src.width, src.height, BufferedImage.TYPE_INT_RGB);
 			buf = filter.filter((BufferedImage)src.getNative(), buf);
+			//This filter makes spectrograms appear dark, so manually adjust the contrast.
+			ContrastFilter colorFilter = new ContrastFilter();
+			colorFilter.setContrast(1.0f+filterValue*0.7f);
+			colorFilter.setBrightness(2.0f);
+			colorFilter.filter(buf, buf);
 			filterSpectrogram.setImage(new PImage(buf));
 			filterSpectrogram.log("Applied Radial Blur degree " + mag + " to image.");
 		}else {
