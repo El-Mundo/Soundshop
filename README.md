@@ -38,7 +38,7 @@ For more specified information about the codes, please refer to the top area of 
 v.2.0 New Function (LAN Network Bokeh):
 -----------------------------------------------------
 
-###Please note that this function may not work properly on Mac OS due to Apple's limitations.
+`Please note that this function may not work properly on Mac OS due to Apple's limitations.`
 
 To use this function, please click the "LAN Bokeh" button on the file selection page.
 A Java Window will pop out asking you to input an address and a port.
