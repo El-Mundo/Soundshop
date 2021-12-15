@@ -69,13 +69,13 @@ This is an IPv6 address. An IPv4 client can connect to an IPv6 host with this ad
 To cancel a room and go back to normal mode, just close the LAN window.
 If you want to keep your room, please leave the pop-out window running in the background.
 
-![image](https://github.com/El-Mundo/Soundshop/blob/master/hostandclient.png)
-
 After you join or create a room, you can click the process button just as the normal mode,
 the program will automatically check your connection state and open the editor.
 The client can blur their sound with image filters, while the host cannot.
 The host can play all the sound clips of the room's clients, but the clients cannot play back them without the host's signal.
 Also, the wav and png export is forbidden in the LAN room to avoid synchronization issues.
+
+![image](https://github.com/El-Mundo/Soundshop/blob/master/hostandclient.png)
 
 This design is strongly inspired by how cameras' bokeh works.
 The host is considered the camera, so the his/her play-back button is the shutter that controls all the contents.
