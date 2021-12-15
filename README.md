@@ -7,7 +7,7 @@ All used resources are packed as JAVA byte arrays to avoid pre-loading troubles.
 Setup:
 -----------------------------------------------------
 
-1. Check if the device has Java Virtual Machine (JVM) installed.
+1. Check if the device has `Java Virtual Machine` (JVM) installed.
 2. Only the .jar is needed for setting up, which can be found in the release section of this page.
 3. Open the .jar file with JVM. If the software still cannot start, please try JVM with a version higher than 1.8.0.
 4. Select a .wav or .png file at the beginning page.
@@ -16,7 +16,7 @@ Setup:
 The wav saving requires to start a recorder and play the audio once, and all input will be ignored during the record.
 
 7. The "LAN bokeh" button will lead to a pop-out window asking to set up network for entering a multi-device synchronizing mode.
-To use this mode, please refer to the "v.2.0 New Function" section of this Readme file.
+To use this mode, please refer to the `"v.2.0 New Function"` section of this Readme file.
 In this mode, only a host can play or stop the audio, while only the clients can edit the audio.
 Please also note that, after entering this mode, the user can close the pop-out window to go back to the normal mode.
 
@@ -43,11 +43,11 @@ A Java Window will pop out asking you to input an address and a port.
 
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/setlan.png)
 
-There are two modes, host and client.
+There are two modes, `host` and `client`.
 A host is a must for creating a local network room, no clients can connect to the room without a host.
 Clients can connect to the room the host created with the IP address and port number provided by the host.
 
-To create a room as the host, input the number of clients that will connect to your room in the "address/client number" area.
+To create a room as the host, input the `number of clients that will connect to your room` in the "address/client number" area.
 As for port, you can input any integer as long as its length is between 4-5 digits.
 However, due to the setting of JAVA's Socket class, you may not always get the port you want.
 Please be sure about the number of clients, as you cannot successfully create your room before all expected clients have connected to the room.
@@ -66,7 +66,7 @@ This is an IPv6 address. An IPv4 client can connect to an IPv6 host with this ad
 
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/connect.png)
 
-To cancel a room and go back to normal mode, just close the LAN window.
+To cancel a room and go back to normal mode, just `close the LAN window`.
 If you want to keep your room, please leave the pop-out window running in the background.
 
 After you join or create a room, you can click the process button just as the normal mode,
@@ -96,6 +96,7 @@ Known issues:
 2. Can only load .wav files with standard PCM format.
 3. When loading big files, the music will sound strange while reaching MIDI sequencer's end.
 4. Buttons can still be triggered when pulling a bar, which may cause an accidental exit.
+5. The message on the "set LAN" window sometimes blinks due to multi-threading socket communication.
 
 
 -----------------------------------------------------
