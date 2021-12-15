@@ -7,6 +7,7 @@ import base.SpectrogramDrawing;
 import interactable.BackButton;
 import interactable.HostPlaybackButton;
 import interactable.Interactable;
+import network.ServerTest;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -25,8 +26,15 @@ public class HostScene extends SoundEditScene {
 		isPlaying = false;
 		state = 0;
 		
-		clientString = new DrawString(" TEST \nSERVER");
+		clientString = new DrawString("SERVER");
 		clientString.setColor(180, 0, 0);
+	}
+	
+	@Override
+	public void quit() {
+		super.quit();
+		//Stop all clients when the host quits
+		ServerTest.sending = 2;
 	}
 	
 	public HostScene(PApplet parent, PImage image) throws IOException {
@@ -72,7 +80,7 @@ public class HostScene extends SoundEditScene {
 			i.display(this);
 		}
 		
-		clientString.draw(this, 580, height - 80, 16);
+		clientString.draw(this, 580, height - 64, 16);
 	}
 	
 }

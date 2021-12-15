@@ -39,7 +39,7 @@ public class ClientScene extends SoundEditScene {
 		isPlaying = false;
 		state = 0;
 		
-		clientString = new DrawString(" TEST \nCLIENT");
+		clientString = new DrawString("CLIENT");
 		clientString.setColor(180, 0, 0);
 	}
 	
@@ -101,15 +101,18 @@ public class ClientScene extends SoundEditScene {
 			break;
 		}
 		
-		clientString.draw(this, 580, height - 80, 16);
+		clientString.draw(this, 580, height - 64, 16);
 		
-		if(ClientThread.clientMessage.contains("11") && !isPlaying) {
-			posX = 0.0f;
-			play();
-			isPlaying = true;
-		}else if(ClientThread.clientMessage.contains("12") && isPlaying) {
-			posX = 0.0f;
-			isPlaying = false;
+		if(SpectrogramDrawing.main.getState() == 1) {
+			//Do not process messages from the host when quitting
+			if(ClientThread.clientMessage.contains("11") && !isPlaying) {
+				posX = 0.0f;
+				play();
+				isPlaying = true;
+			}else if(ClientThread.clientMessage.contains("12") && isPlaying) {
+				posX = 0.0f;
+				isPlaying = false;
+			}
 		}
 	}
 	

@@ -27,7 +27,7 @@ public class FileSelectScene extends Scene {
 	private final static DrawString GUI_SELECTED_FILE = new DrawString("Selected File:");
 	public static DrawString soundInfo = new DrawString("FFT Info:\nwating for process");
 	private static String consoleString = "FFT Info:\nwating for process";
-	private static DrawString networkString = new DrawString("--Experimental Function--");
+	private static DrawString networkString = new DrawString("----Network Function----");
 
 	public FileSelectScene(int width, int height, PApplet parent) {
 		super(width, height, parent);
@@ -76,7 +76,7 @@ public class FileSelectScene extends Scene {
 		GUI_SELECTED_FILE.draw(this, 8, 352, 16);
 		workingPath.draw(this, 8, 384, 16);
 		filterSwitch.draw(this, 460, 11, 16);
-		networkString.draw(this, 312, 128, 16);
+		networkString.draw(this, 320, 128, 16);
 		
 		for(Button b : buttons) {
 			b.display(this);

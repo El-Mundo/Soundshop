@@ -70,6 +70,7 @@ public class SoundEditScene extends Scene {
 	
 	public void quit() {
 		spectrogram.endSound(SpectrogramDrawing.minim.getLineOut());
+		isPlaying = false;
 	}
 	
 	public SoundEditScene(PApplet parent, PImage image) throws IOException {

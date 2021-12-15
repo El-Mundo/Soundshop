@@ -1,7 +1,7 @@
 package base;
 
 /*
- * @version 2.0.0
+ * @version 2.0.1
  * @author Shuangyuan Cao
  * @since 0.0.1
  * 
@@ -248,6 +248,10 @@ public class SpectrogramDrawing extends PApplet {
 		transitionController = -25;
 		state = 2;
 		AudioOutput.stopMusic();
+	}
+	
+	public int getState() {
+		return state;
 	}
 	
 	public void transitToFileSelection() {

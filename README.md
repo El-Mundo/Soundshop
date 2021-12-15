@@ -16,7 +16,7 @@ Setup:
 The wav saving requires to start a recorder and play the audio once, and all input will be ignored during the record.
 
 7. The "LAN bokeh" button will lead to a pop-out window asking to set up network for entering a multi-device synchronizing mode.
-To use this mode, please refer to the "v.2.0 New Experimental Function" section of this Readme file.
+To use this mode, please refer to the "v.2.0 New Function" section of this Readme file.
 In this mode, only a host can play or stop the audio, while only the clients can edit the audio.
 Please also note that, after entering this mode, the user can close the pop-out window to go back to the normal mode.
 
@@ -35,7 +35,7 @@ For more specified information about the codes, please refer to the top area of 
 
 
 -----------------------------------------------------
-v.2.0 New Experimental Function (LAN Network Bokeh):
+v.2.0 New Function (LAN Network Bokeh):
 -----------------------------------------------------
 
 To use this function, please click the "LAN Bokeh" button on the file selection page.
@@ -48,10 +48,11 @@ A host is a must for creating a local network room, no clients can connect to th
 Clients can connect to the room the host created with the IP address and port number provided by the host.
 
 To create a room as the host, input the number of clients that will connect to your room in the "address/client number" area.
-As for port, you can input any integer as long as its length is between 4-5 digits (and has not been occupied by other progresses).
+As for port, you can input any integer as long as its length is between 4-5 digits.
+However, due to the setting of JAVA's Socket class, you may not always get the port you want.
 Please be sure about the number of clients, as you cannot successfully create your room before all expected clients have connected to the room.
 Please also note that if there is no new client connecting to your room for 2 minutes before you get all expected clients in your room, the room will be timed out and cancelled.
-If your room has been created sucessfully, your window will show a string like "Server started".
+If your room has been created successfully, your window will show a string like "Server started".
 
 To join a room as a client, please first ensure that your device is in the same Wi-Fi with the host.
 Then please input the room host's IP address in the "address/client number" area.
@@ -61,6 +62,7 @@ Input these information and click the "run as client" button.
 If you have connected successfully, the window will show a string like "Just connected to /192.168.1.1:0000".
 
 To cancel a room and go back to normal mode, just close the LAN window.
+If you want to keep your room, please leave the pop-out window running in the background.
 
 ![image](https://github.com/El-Mundo/Soundshop/blob/master/hostandclient.png)
 
@@ -124,3 +126,5 @@ Update v.1.0.5(13/12/2021): Fixed a BUG that the program cannot exit properly wh
 Update v.1.0.6(13/12/2021): Fixed the radial blur filter.
 
 Update v.2.0.0(14/12/2021): Added local network connection.
+
+Update v.2.0.1(14/12/2021): Optimized some details related to local network.
