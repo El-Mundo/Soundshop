@@ -81,12 +81,12 @@ public class Room {
     public void startAsHost(int port, int clientNum) throws Exception {
     	hostThread = new ServerTest(this, clientNum);
 		window = new JFrame("Server");
-		window.setSize(640, 480);
+		window.setSize(720, 480);
     	window.setLocationRelativeTo(null);
     	window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	this.address = hostThread.getRemoteInfo();
     	hint = new JLabel("Server starting on "+address, JLabel.CENTER);
-    	hint.setFont(new Font("Times New Roman", Font.BOLD, 24));
+    	hint.setFont(new Font("Times New Roman", Font.BOLD, 20));
     	window.add(hint);
     	window.addWindowListener(new java.awt.event.WindowListener() {
 			@Override
@@ -124,7 +124,7 @@ public class Room {
     	window.setLocationRelativeTo(null);
     	window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	hint = new JLabel("Linking to LAN...", JLabel.CENTER);
-    	hint.setFont(new Font("Times New Roman", Font.BOLD, 24));
+    	hint.setFont(new Font("Times New Roman", Font.BOLD, 20));
     	window.add(hint);
     	window.addWindowListener(new java.awt.event.WindowListener() {
 			@Override
@@ -189,6 +189,7 @@ public class Room {
 		inputPanel.add(new JLabel());
 		inputPanel.add(new JLabel("Port",JLabel.CENTER));
 		portField = new JTextField();
+		portField.setText("(Any number with 4 digits can be input here)");
 		inputPanel.add(portField);
 		window.add(inputPanel);
 		

@@ -38,8 +38,6 @@ For more specified information about the codes, please refer to the top area of 
 v.2.0 New Function (LAN Network Bokeh):
 -----------------------------------------------------
 
-`Please note that this function may not work properly on Mac OS due to Apple's limitations.`
-
 To use this function, please click the "LAN Bokeh" button on the file selection page.
 A Java Window will pop out asking you to input an address and a port.
 
@@ -58,10 +56,15 @@ If your room has been created successfully, your window will show a string like 
 
 To join a room as a client, please first ensure that your device is in the same Wi-Fi with the host.
 Then please input the room host's IP address in the "address/client number" area.
-Please refer to the string shown on the host's device, it will show a string like this: "Waiting for client #0 on 192.168.1.1:0000".
+Please refer to the string shown on the host's device, it will show a string like this: "Waiting for client #0 on 192.168.1.1, port:0000".
 The "192.168.1.1" in the sample string will be the IP address and the "0000" is the port number.
 Input these information and click the "run as client" button.
-If you have connected successfully, the window will show a string like "Just connected to /192.168.1.1:0000".
+If you have connected successfully, the window will show a string like "Just connected to /192.168.1.1, port:0000".
+
+On `Mac OS` you may see very long IP address like: "FE80:0000:0000:0000:0000:0000:0000:1234".
+This is an IPv6 address. An IPv4 client can connect to an IPv6 host with this address, but an IPv6 client cannot join a IPv4 host.
+
+![image](https://github.com/El-Mundo/Soundshop/blob/master/connect.png)
 
 To cancel a room and go back to normal mode, just close the LAN window.
 If you want to keep your room, please leave the pop-out window running in the background.

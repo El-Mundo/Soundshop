@@ -50,7 +50,7 @@ public class ServerTest extends Thread {
     }
     
     public String getRemoteInfo() {
-    	return getLocalIpAddress() + ":" + serverSocket.getLocalPort();
+    	return getLocalIpAddress() + ", port:" + serverSocket.getLocalPort();
     }
     
     public void forceQuit() {
