@@ -80,7 +80,7 @@ public class Room {
 	
     public void startAsHost(int port, int clientNum) throws Exception {
     	hostThread = new ServerTest(this, clientNum);
-		window = new JFrame("Sender");
+		window = new JFrame("Server");
 		window.setSize(640, 480);
     	window.setLocationRelativeTo(null);
     	window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -119,7 +119,7 @@ public class Room {
  
     public void startAsClient(String addr, int port) throws Exception {
     	clientThread = new ClientThread(this);
-    	window = new JFrame("Sender");
+    	window = new JFrame("Client");
     	window.setSize(640, 480);
     	window.setLocationRelativeTo(null);
     	window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -196,7 +196,7 @@ public class Room {
 		window.add(new JLabel());
 		
 		//Add a label for user hints
-		hint = new JLabel("Please enter username and password",JLabel.CENTER);
+		hint = new JLabel("Please enter adress or client number and port number",JLabel.CENTER);
 		window.add(hint);
 		
 		//Add button to confirm login or enter register window
