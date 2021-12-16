@@ -183,13 +183,13 @@ public class Room {
 		inputPanel.setLayout(new GridLayout(3,2));
 		inputPanel.add(new JLabel("IP Address / Client Number",JLabel.CENTER));
 		addressField = new JTextField();
-		addressField.setText("(IP address for clients & client number for a host)");
+		addressField.setText("(IP Address for Clients or Client Number for a Host)");
 		inputPanel.add(addressField);
 		inputPanel.add(new JLabel());
 		inputPanel.add(new JLabel());
 		inputPanel.add(new JLabel("Port",JLabel.CENTER));
 		portField = new JTextField();
-		portField.setText("(Any number with 4 digits can be input here)");
+		portField.setText("(Any number with 4-5 digits can be input here)");
 		inputPanel.add(portField);
 		window.add(inputPanel);
 		
