@@ -8,11 +8,12 @@ Setup:
 -----------------------------------------------------
 
 1. Check if the device has `Java Virtual Machine` (JVM) installed.
-2. Only the .jar is needed for setting up, which can be found in the release section of this page.
-3. Open the .jar file with JVM. If the software still cannot start, please try JVM with a version higher than 1.8.0.
-4. Select a .wav or .png file at the beginning page.
-5. Select a filter in the second page and drag the bar to apply the filter at certain magnitude.
-6. The save section allows saving the results as png or wav files. The saved results will be on the directory of the loaded file.
+2. Only the .jar is needed for setting up, which can be found in the release section of this page.  
+https://github.com/El-Mundo/Soundshop/releases/tag/newest-release  
+4. Open the .jar file with JVM. If the software still cannot start, please try JVM with a version higher than 1.8.0.
+5. Select a .wav or .png file at the beginning page.
+6. Select a filter in the second page and drag the bar to apply the filter at certain magnitude.
+7. The save section allows saving the results as png or wav files. The saved results will be on the directory of the loaded file.
 The wav saving requires to start a recorder and play the audio once, and all input will be ignored during the record.
 
 7. The "LAN bokeh" button will lead to a pop-out window asking to set up network for entering a multi-device synchronizing mode.
