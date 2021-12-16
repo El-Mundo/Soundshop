@@ -9,7 +9,7 @@ Setup:
 
 1. Check if the device has `Java Virtual Machine` (JVM) installed.
 2. Only the .jar is needed for setting up, which can be found in the release section of this page.  
-https://github.com/El-Mundo/Soundshop/releases/tag/newest-release  
+https://github.com/El-Mundo/Soundshop/releases/download/network-release/SoundWorkshop.jar  
 4. Open the .jar file with JVM. If the software still cannot start, please try JVM with a version higher than 1.8.0.
 5. Select a .wav or .png file at the beginning page.
 6. Select a filter in the second page and drag the bar to apply the filter at certain magnitude.
